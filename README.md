@@ -1,68 +1,64 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Date picker
 
-## Available Scripts
+## Analysis of the problem
+* find the reason or context of where the date picker is supposed to be used, 
+* if there is no test-case then pick your own 
+* ideally date picker is different for say credit card expiry as for picking someones birthday to set calandar reminder, because for credit card expiry you arent interested in day of week (monday-sunday) but maybe this information would be needed when you want to find out someones birthday, coding a date picker with day of week would require you to know which day the 1st falls in that month
 
-In the project directory, you can run:
+* Scott Flansburg youtube video relearning math - possible to find out any day of week based on algorithm
 
-### `npm start`
+## Algorithms
+* the reason I want to use an algorithm...
+* less mistakes
+* proven formula for edge cases
+* i think its also so that we can separate actions and visuals from the logic and reuse logic for different ways to present the consistently same results.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## ALGORITHM - which day of the week is the 1st of the month
+* algorithm for figuring out which day of the week the 1st is for current month and display current month as base case to work off that we want to pick a date closer to where we are now (as it is more relavant) than say 1500?
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### why we want this? 
+* for presentation of the data so that we know where to plot the 1st day of the month, everything else can be plotted in relation to this starting point of current day/current month/where the 1st of month is, and in the same block, any overflow of days from previous month and next month that is supposed to show
 
-### `npm test`
+https://www.tondering.dk/claus/cal/chrweek.php#calcdow
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```js
+const firstDayInMonthIndex = (
+  monthIndex = new Date().getMonth(), 
+  year = new Date().getFullYear()
+) => (
+  new Date(`${year}-${monthIndex + 1}-01`).getDay()
+)
 
-### `npm run build`
+// 6 - Saturday, 0-Sunday
+//day = (day===0) ? 7 : day
+```
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## ALGORITHM - finding days in a month
+* reference days in a month: http://www.dispersiondesign.com/articles/time/number_of_days_in_a_month
+* my understanding of this algorithm, the %7 give us a pattern for 31 or 30 days because counting 1 to 7 is jan-july and the count needs to start over at 7 to make 8 start at same number as January, the %2 turns this to binary
+* and then when its a leap year there is 29 days but 28 when it is not, and so this calculated and added to 28.
+* note count index begins at 0 and this gives you an even or odd number
+* also note: there is no year in this calculation, but there is a year variable in the isLeapYear calculation
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```js
+var daysInMonth = (month === 2) ? (28 + isLeapYear) : 31 - (month - 1) % 7 % 2;
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## ALGORITHM - Leap year? how many days are in February
+* problem of leap year: http://www.dispersiondesign.com/articles/time/determining_leap_years
+* a year is a leap year if it is divisible by four, UNLESS it is also divisible by 100. A year is NOT a leap year if it is divisible by 100 UNLESS it is also divisible by 400.
 
-### `npm run eject`
+```js
+var isLeapYear = (year % 4) || ((year % 100 === 0) && (year % 400)) ? 0 : 1;
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### VISUALS
+* initial state - starting date should be current Date, styling of current day vs selected day
+* your arrows are going to show previous or next month
+* how is the date picker activated? is it a textbox that you click and then once selected the input shows the picked date
+* or a button that you click and this brings up the date picker
+* mobile/responsive?
+* figure out how many lines (weeks) should show for each month block, this should a fixed consistent size accross all months
+* styling days of month not related to current month differently
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
