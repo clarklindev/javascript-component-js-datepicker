@@ -1,0 +1,13 @@
+{
+  "name": "datepicker",
+  "version": "1.0.0",
+  "description": "* find the reason or context of where the date picker is supposed to be used, \r * if there is no test-case then pick your own \r * ideally date picker is different for say credit card expiry as for picking someones birthday to set calandar reminder, because for credit card expiry you arent interested in day of week (monday-sunday) but maybe this information would be needed when you want to find out someones birthday, coding a date picker with day of week would require you to know which day the 1st falls in that month",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "sass --watch styles.scss styles.css"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}

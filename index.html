@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link href="styles.css" rel="stylesheet">
-</head>
-<body>
-    <div class="date-picker">
-        <input name="date-input" type="text" value="" readonly/>
-        <div class="calendar">
-            <div class="arrow left">&lt;</div>
-            <div class="year">2000</div>
-            <div class="arrow right">&gt;</div>
-        </div>
-    </div>
-    <script src="scripts/scripts.js"></script>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+		<link href="styles.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="date-picker">
+			<input name="date-input" type="text" value="" readonly />
+			<div class="calendar">
+				<div class="calendar-header">
+					<div class="arrow left">&lt;</div>
+					<div class="yearandmonth">
+						<div class="year">2000</div>
+						<div class="month">march</div>
+					</div>
+					<div class="arrow right">&gt;</div>
+				</div>
+				<table>
+					<thead>
+						<tr class="calendar-daysofweek">
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+		<script src="scripts/scripts.js"></script>
+	</body>
 </html>

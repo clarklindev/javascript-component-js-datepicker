@@ -1,12 +1,26 @@
-.calendar.active{
-    display:flex;
-    width:300px;
-    height:300px;
-    justify-content: space-between;
-    background-color:white;
-    border:1px solid black;
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+}
+.calendar-header .yearandmonth {
+  display: flex;
 }
 
-.calendar{
-    display:none;
+.calendar-daysofweek .row {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
 }
+
+.calendar {
+  display: none;
+}
+.calendar.active {
+  display: block;
+  width: 300px;
+  height: 300px;
+  background-color: white;
+  border: 1px solid black;
+}
+
+/*# sourceMappingURL=styles.css.map */
