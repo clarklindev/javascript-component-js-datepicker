@@ -14,8 +14,10 @@ class DatePicker {
     this.limitEndYearMonth = limitEndYearMonth;
     this.startYear = (startYear === null)? new Date().getFullYear() : startYear;
     this.startMonth = (startMonth === null)? new Date().getMonth() : startMonth-1;//cater for zero index
-    this.currentMonth = this.startMonth;
+    this.currentMonth = this.startMonth;//zero-index value
     this.currentYear = this.startYear;
+    this.htmlPickedDay = null;
+    this.pickedDate = null;
 
     //eventlistener
     this.datepicker.addEventListener("click", this.onChooseDate);
@@ -142,19 +144,30 @@ class DatePicker {
           }
         }
 				//get first day of week place in j     
-        let day = document.createElement("td");      
+        let day = document.createElement("td");            
         let dayText = document.createTextNode("");   
         if(startCounting && dayCount <= daysInMonthCount){             
           dayText = document.createTextNode(dayCount);         
           dayCount++;          
         }   
         day.appendChild(dayText);
+        day.classList.add('day');
+        
+        //selected day is highlighted
+        if(this.pickedDate && ((this.currentYear === this.pickedDate.getFullYear()) && (this.currentMonth === this.pickedDate.getMonth())) ){
+          if(parseInt(dayText.nodeValue) === parseInt(this.pickedDate.getDate()) ){
+            this.htmlPickedDay = day;
+            this.htmlPickedDay.classList.add('active');
+          }
+        }
+       
+        day.addEventListener('click', this.dayClickHandler);
         row.appendChild(day);
 			}
 			htmlDaysOfMonth.appendChild(row);
 		}
   };
-  
+
   generateYearAndMonth = (monthIndex = new Date().getMonth(), year = new Date().getFullYear()) => {
     let htmlYearAndMonth = document.querySelector(".yearandmonth");
     htmlYearAndMonth.querySelector('.year').innerHTML = "";
@@ -172,6 +185,23 @@ class DatePicker {
 		console.log("hello world");
   };
   
+  dayClickHandler = (event) => {
+    console.log('target', event.currentTarget);
+    if(this.htmlPickedDay !== null){
+      this.htmlPickedDay.classList.remove('active');
+    }
+    this.htmlPickedDay = event.currentTarget;
+    //add styling by adding an active class
+    this.htmlPickedDay.classList.add('active');
+    //the day
+    let day = Math.abs(this.htmlPickedDay.innerHTML);
+    console.log('day:', day);
+    //create new date and assign to pickedDate
+    //cater for zero index
+    this.pickedDate = new Date(`${this.currentYear}-${this.currentMonth+1}-${day}`);
+    console.log('pickedDate:', this.pickedDate);
+  }
+
   leftClickHandler = () => {
     // console.log('dispatch: leftclick');
     dispatchEvent(new Event('leftclick'));

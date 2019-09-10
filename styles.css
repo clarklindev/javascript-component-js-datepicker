@@ -12,6 +12,13 @@
   flex-direction: row;
 }
 
+.calendar-daysofmonth .day {
+  cursor: pointer;
+}
+.calendar-daysofmonth .day.active {
+  background-color: red;
+}
+
 .calendar {
   display: none;
 }

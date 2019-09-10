@@ -15,6 +15,15 @@
     flex-direction:row;
   }
 }
+//days of month
+.calendar-daysofmonth{
+  .day{
+    cursor: pointer;
+  }
+  .day.active{
+    background-color: red;
+  }
+}
 
 .calendar {
 	display: none;
