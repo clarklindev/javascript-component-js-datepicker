@@ -202,7 +202,7 @@ class DatePicker {
     console.log('pickedDate:', this.pickedDate); //month is not indexed
 
     //put text in input
-    let formattedDate = this.pickedDate.getFullYear() + '-' + String(this.pickedDate.getMonth()).padStart(2,'0') + "-" + String(this.pickedDate.getDate()).padStart(2,'0');
+    let formattedDate = this.pickedDate.getFullYear() + '-' + String(this.pickedDate.getMonth()+1).padStart(2,'0') + "-" + String(this.pickedDate.getDate()).padStart(2,'0');
     console.log('formattedDate: ', formattedDate);
     this.datepicker.value = formattedDate;
   }
