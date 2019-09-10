@@ -144,15 +144,20 @@ class DatePicker {
           }
         }
 				//get first day of week place in j     
-        let day = document.createElement("td");            
-        let dayText = document.createTextNode("");   
-        if(startCounting && dayCount <= daysInMonthCount){             
+        let td = document.createElement("td"); 
+        let day = document.createElement("div");     
+        let dayText = document.createTextNode("");  
+
+        if(startCounting && dayCount <= daysInMonthCount){   
+          td.appendChild(day);      
           dayText = document.createTextNode(dayCount);         
-          dayCount++;          
-        }   
-        day.appendChild(dayText);
-        day.classList.add('day');
-        
+          dayCount++;
+          day.appendChild(dayText);
+          day.classList.add('day');
+          day.addEventListener('click', this.dayClickHandler);          
+        }                
+        row.appendChild(td);
+
         //selected day is highlighted
         if(this.pickedDate && ((this.currentYear === this.pickedDate.getFullYear()) && (this.currentMonth === this.pickedDate.getMonth())) ){
           if(parseInt(dayText.nodeValue) === parseInt(this.pickedDate.getDate()) ){
@@ -160,10 +165,8 @@ class DatePicker {
             this.htmlPickedDay.classList.add('active');
           }
         }
-       
-        day.addEventListener('click', this.dayClickHandler);
-        row.appendChild(day);
-			}
+      
+      }
 			htmlDaysOfMonth.appendChild(row);
 		}
   };
@@ -293,4 +296,4 @@ class DatePicker {
 
 //limitEndYear > startYear
 //0 < limitEndMonth < 12
-let d = new DatePicker(2019, 9, "mon", 1970, 1);
+let d = new DatePicker(1971, 9, "mon", 1970, 1, 1971,12);

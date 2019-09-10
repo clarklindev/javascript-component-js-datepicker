@@ -5,6 +5,9 @@
 .calendar-header .yearandmonth {
   display: flex;
 }
+.calendar-header .arrow {
+  cursor: pointer;
+}
 
 .calendar-daysofweek .row {
   display: flex;
