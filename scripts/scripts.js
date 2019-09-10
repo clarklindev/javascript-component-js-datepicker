@@ -12,7 +12,21 @@ class DatePicker {
 			5: "fri",
       6: "sat",		      	
     };
-    this.startOfWeek = "mon" //mon || sun
+    this.monthsOfYear = {
+      0: 'january',
+      1: 'february',
+      2: 'march',
+      3: 'april',
+      4: 'may',
+      5: 'june',
+      6: 'july',
+      7: 'august',
+      8: 'september',
+      9: 'october',
+      10: 'november',
+      11: 'december'
+    }
+    this.startOfWeek = "mon"; //mon || sun
 		this.generateWeekdays();
     this.generateDaysOfMonth();
     this.generateYearAndMonth();
@@ -106,8 +120,10 @@ class DatePicker {
 		}
   };
   
-  generateYearAndMonth = () => {
-    
+  generateYearAndMonth = (monthIndex = new Date().getMonth(), year = new Date().getFullYear()) => {
+    let htmlYearAndMonth = document.querySelector(".yearandmonth");
+    htmlYearAndMonth.querySelector('.year').appendChild(document.createTextNode(year));
+    htmlYearAndMonth.querySelector('.month').appendChild(document.createTextNode(this.monthsOfYear[monthIndex]));
   }
 
 	onChooseDate = () => {
