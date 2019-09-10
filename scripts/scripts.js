@@ -5,13 +5,14 @@ class DatePicker {
 		this.calendar = document.querySelector(".calendar");
     this.arrowLeft = document.querySelector('.arrow.left');
     this.arrowRight = document.querySelector('.arrow.right');
+    this.htmlDaysOfMonth = document.querySelector(".calendar-daysofmonth");
 
     //keep track of where we are on calendar
     this.limitStartYear = limitStartYear;
     this.limitStartYearMonth = limitStartYearMonth;
-
     this.limitEndYear = limitEndYear;
     this.limitEndYearMonth = limitEndYearMonth;
+    
     this.startYear = (startYear === null)? new Date().getFullYear() : startYear;
     this.startMonth = (startMonth === null)? new Date().getMonth() : startMonth-1;//cater for zero index
     this.currentMonth = this.startMonth;//zero-index value
@@ -23,6 +24,7 @@ class DatePicker {
     this.datepicker.addEventListener("click", this.onChooseDate);
     this.arrowLeft.addEventListener('click', this.leftClickHandler);
     this.arrowRight.addEventListener('click', this.rightClickHandler);    
+    this.htmlDaysOfMonth.addEventListener('click', this.dayClickHandler);          
     addEventListener('leftclick', this.changeDateHandler);
     addEventListener('rightclick', this.changeDateHandler);
 
@@ -112,9 +114,8 @@ class DatePicker {
 	//creates the days of the month
 	generateDaysOfMonth = (monthIndex = new Date().getMonth(), year = new Date().getFullYear()) => {
 		//rows = 5 (weeks) in month
-    let htmlDaysOfMonth = document.querySelector(".calendar-daysofmonth");
-    htmlDaysOfMonth.innerHTML = "";
-    
+    this.htmlDaysOfMonth.innerHTML = "";
+
     let firstDay = this.firstDayInMonthIndex(monthIndex, year);
     let daysInMonthCount = this.daysInMonth(monthIndex, year);
     console.log('daysInMonthCount:', daysInMonthCount);
@@ -154,7 +155,7 @@ class DatePicker {
           dayCount++;
           day.appendChild(dayText);
           day.classList.add('day');
-          day.addEventListener('click', this.dayClickHandler);          
+                  
         }                
         row.appendChild(td);
 
@@ -167,7 +168,7 @@ class DatePicker {
         }
       
       }
-			htmlDaysOfMonth.appendChild(row);
+			this.htmlDaysOfMonth.appendChild(row);
 		}
   };
 
@@ -189,11 +190,11 @@ class DatePicker {
   };
   
   dayClickHandler = (event) => {
-    console.log('target', event.currentTarget);
+    console.log('target:', event.target);
     if(this.htmlPickedDay !== null){
       this.htmlPickedDay.classList.remove('active');
     }
-    this.htmlPickedDay = event.currentTarget;
+    this.htmlPickedDay = event.target;
     //add styling by adding an active class
     this.htmlPickedDay.classList.add('active');
     //the day
