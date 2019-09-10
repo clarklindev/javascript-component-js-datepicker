@@ -1,5 +1,5 @@
 class DatePicker {
-	constructor(startMonth=new Date().getMonth(), startYear=new Date().getFullYear()) {
+	constructor(startMonth=new Date().getMonth(), startYear=new Date().getFullYear(), startOfWeek="mon") {
 		this.datepicker = document.querySelector('input[name="date-input"]');
 		this.calendar = document.querySelector(".calendar");
     this.arrowLeft = document.querySelector('.arrow.left');
@@ -41,7 +41,7 @@ class DatePicker {
       10: 'november',
       11: 'december'
     }
-    this.startOfWeek = "mon"; //mon || sun
+    this.startOfWeek = startOfWeek; //mon || sun
     this.generateWeekdays();
     this.updateDate(this.currentMonth, this.currentYear);
   }
@@ -198,4 +198,4 @@ class DatePicker {
   }
 }
 
-let d = new DatePicker();
+let d = new DatePicker(0,1969);
