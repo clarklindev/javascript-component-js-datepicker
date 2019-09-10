@@ -1,8 +1,23 @@
 class DatePicker {
-	constructor() {
+	constructor(startMonth=new Date().getMonth(), startYear=new Date().getFullYear()) {
 		this.datepicker = document.querySelector('input[name="date-input"]');
-		this.datepicker.addEventListener("click", this.onChooseDate);
 		this.calendar = document.querySelector(".calendar");
+    this.arrowLeft = document.querySelector('.arrow.left');
+    this.arrowRight = document.querySelector('.arrow.right');
+
+    //keep track of where we are on calendar
+    this.startMonth = startMonth;
+    this.startYear = startYear;
+    this.currentMonth = startMonth;
+    this.currentYear = startYear;
+
+    //eventlistener
+    this.datepicker.addEventListener("click", this.onChooseDate);
+    this.arrowLeft.addEventListener('click', this.leftClickHandler);
+    this.arrowRight.addEventListener('click', this.rightClickHandler);    
+    addEventListener('leftclick', this.changeDateHandler);
+    addEventListener('rightclick', this.changeDateHandler);
+
 		this.daysOfWeekLabels = {
       0: "sun",
       1: "mon",
@@ -27,34 +42,43 @@ class DatePicker {
       11: 'december'
     }
     this.startOfWeek = "mon"; //mon || sun
-		this.generateWeekdays();
-    this.generateDaysOfMonth();
-    this.generateYearAndMonth();
-	}
+    this.generateWeekdays();
+    this.updateDate(this.currentMonth, this.currentYear);
+  }
+  
+  updateDate = (monthIndex, year) =>{
+    this.generateDaysOfMonth(monthIndex, year);
+    this.generateYearAndMonth(monthIndex, year);    
+  }
 
-  //pass in 2 optional props: month(zero indexed), year
+  //pass in 2 optional props: month(zero indexed), year. 
+  //default uses current month and year
   //returns zero index day of week 0-sunday...6-saturday
 	firstDayInMonthIndex = (
 		monthIndex = new Date().getMonth(),
 		year = new Date().getFullYear()
 	) => {
-		return new Date(`${year}-${monthIndex + 1}-01`).getDay();
+    let month = monthIndex + 1;
+		return new Date(`${year}-${month}-01`).getDay();
   };
   
-  //returns 0 or 1, defaults to using current year
+  //returns 0 or 1, 
+  //defaults to using current year
   isLeapYear = (year=new Date().getFullYear()) => {
     return (year % 4) || ((year % 100 === 0) && (year % 400)) ? 0 : 1;
   }
 
-  //calculates amount of days in a month of specific year, default: current month, current year
+  //calculates amount of days in a month of specific year
+  //default: current month, current year
   daysInMonth = (monthIndex = new Date().getMonth(), year = new Date().getFullYear()) => {
     let month = monthIndex + 1;
-    return (month === 2) ? (28 + isLeapYear(year)) : 31 - (month - 1) % 7 % 2;
+    return (month === 2) ? (28 + this.isLeapYear(year)) : 31 - (month - 1) % 7 % 2;
   }
     
 	//creates the header for days of week
 	generateWeekdays = () => {
-		let daysOfWeek = document.querySelector(".calendar-daysofweek");
+    let daysOfWeek = document.querySelector(".calendar-daysofweek");
+    daysOfWeek.innerHTML = "";
 		for (let i = 0; i < 7; i++) {
       let day = document.createElement("td");
       let posInArray;
@@ -74,12 +98,13 @@ class DatePicker {
   };
 
 	//creates the days of the month
-	generateDaysOfMonth = () => {
+	generateDaysOfMonth = (monthIndex = new Date().getMonth(), year = new Date().getFullYear()) => {
 		//rows = 5 (weeks) in month
-		let htmlDaysOfMonth = document.querySelector(".calendar-daysofmonth");
+    let htmlDaysOfMonth = document.querySelector(".calendar-daysofmonth");
+    htmlDaysOfMonth.innerHTML = "";
     
-    let firstDay = this.firstDayInMonthIndex();//of current month sunday = 0
-    let daysInMonthCount = this.daysInMonth();
+    let firstDay = this.firstDayInMonthIndex(monthIndex, year);
+    let daysInMonthCount = this.daysInMonth(monthIndex, year);
     console.log('daysInMonthCount:', daysInMonthCount);
 
     let startCounting = false;
@@ -122,18 +147,55 @@ class DatePicker {
   
   generateYearAndMonth = (monthIndex = new Date().getMonth(), year = new Date().getFullYear()) => {
     let htmlYearAndMonth = document.querySelector(".yearandmonth");
+    htmlYearAndMonth.querySelector('.year').innerHTML = "";
+    htmlYearAndMonth.querySelector('.month').innerHTML = "";
     htmlYearAndMonth.querySelector('.year').appendChild(document.createTextNode(year));
     htmlYearAndMonth.querySelector('.month').appendChild(document.createTextNode(this.monthsOfYear[monthIndex]));
   }
 
 	onChooseDate = () => {
 		console.log("onChooseDate");
-		this.calendar.classList.toggle("active");
+		//this.calendar.classList.toggle("active");
 	};
 
 	onChooseYear = () => {
 		console.log("hello world");
-	};
+  };
+  
+  leftClickHandler = () => {
+    console.log('dispatch: leftclick');
+    dispatchEvent(new Event('leftclick'));
+  }
+
+  rightClickHandler = () => {
+    console.log('dispatch: rightclick');    
+    dispatchEvent(new Event('rightclick'));
+  }
+
+  //this function is called when month/year is updated
+  changeDateHandler = (event) => {
+    console.log('changeDateHandler: ', event.type);
+    switch(event.type){
+      case 'leftclick':
+        //left 
+        this.currentMonth--;
+        if(this.currentMonth < 0){
+          this.currentMonth = 11;
+          this.currentYear--;
+        }
+        break;
+      case 'rightclick':
+        //right
+        this.currentMonth++;
+        if(this.currentMonth > 11){
+          this.currentMonth = 0;
+          this.currentYear++;
+        }
+        break;
+    }
+    //update
+    this.updateDate(this.currentMonth, this.currentYear);
+  }
 }
 
 let d = new DatePicker();
