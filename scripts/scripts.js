@@ -1,11 +1,13 @@
 class DatePicker {
-	constructor(startMonth=new Date().getMonth(), startYear=new Date().getFullYear(), startOfWeek="mon") {
+	constructor(startMonth=new Date().getMonth(), startYear=new Date().getFullYear(), startOfWeek="sun", limitStartYear=null, limitEndYear=null) {
 		this.datepicker = document.querySelector('input[name="date-input"]');
 		this.calendar = document.querySelector(".calendar");
     this.arrowLeft = document.querySelector('.arrow.left');
     this.arrowRight = document.querySelector('.arrow.right');
 
     //keep track of where we are on calendar
+    this.limitStartYear = limitStartYear;
+    this.limitEndYear = limitEndYear;
     this.startMonth = startMonth;
     this.startYear = startYear;
     this.currentMonth = startMonth;
@@ -79,13 +81,17 @@ class DatePicker {
 	generateWeekdays = () => {
     let daysOfWeek = document.querySelector(".calendar-daysofweek");
     daysOfWeek.innerHTML = "";
-		for (let i = 0; i < 7; i++) {
+		for (let i = 0; i < Object.keys(this.daysOfWeekLabels).length; i++) {
       let day = document.createElement("td");
       let posInArray;
-      if(this.startOfWeek === "sun"){
+
+      //start of week is sunday
+      if(this.startOfWeek === this.daysOfWeekLabels[0]){
         posInArray = i;
       }
-      else if(this.startOfWeek === "mon"){
+
+      //start of week is monday
+      else if(this.startOfWeek === this.daysOfWeekLabels[1]){
         posInArray = i+1;
         if(i === 6){
           posInArray = 0;
@@ -120,13 +126,13 @@ class DatePicker {
           if(this.startOfWeek === 'mon'){
             //start counting at j or when j = 7 is a sun
             if(firstDay === j || (firstDay===0 && j===7)){
-              console.log('here j: ', j);
+              console.log('start day of month: ', j);
               startCounting = true;
             }
           }
           else if(this.startOfWeek === 'sun'){
             if(firstDay === j-1){          
-              console.log('here j: ', j);
+              console.log('start day of month: ', j-1);
               startCounting = true;
             }
           }
@@ -178,18 +184,32 @@ class DatePicker {
     switch(event.type){
       case 'leftclick':
         //left 
-        this.currentMonth--;
-        if(this.currentMonth < 0){
-          this.currentMonth = 11;
-          this.currentYear--;
+        if(this.currentYear > this.limitStartYear || this.limitStartYear === null){
+          this.currentMonth--;
+          if(this.currentMonth < 0){
+            this.currentMonth = 11;
+            this.currentYear--;
+          }
+        }
+        else if(this.currentYear === this.limitStartYear){
+          if(this.currentMonth > 0){
+            this.currentMonth--;
+          }
         }
         break;
       case 'rightclick':
         //right
-        this.currentMonth++;
-        if(this.currentMonth > 11){
-          this.currentMonth = 0;
-          this.currentYear++;
+        if(this.currentYear < this.limitEndYear || this.limitEndYear === null){
+          this.currentMonth++;
+          if(this.currentMonth > 11){
+            this.currentMonth = 0;
+            this.currentYear++;
+          }
+        }
+        else if(this.currentYear === this.limitEndYear){
+          if(this.currentMonth < 11){
+            this.currentMonth++;
+          }
         }
         break;
     }
@@ -198,4 +218,4 @@ class DatePicker {
   }
 }
 
-let d = new DatePicker(0,1969);
+let d = new DatePicker(0, 2100,"mon",2099,2101);
