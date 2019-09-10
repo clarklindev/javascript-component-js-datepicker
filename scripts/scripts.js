@@ -199,7 +199,11 @@ class DatePicker {
     //create new date and assign to pickedDate
     //cater for zero index
     this.pickedDate = new Date(`${this.currentYear}-${this.currentMonth+1}-${day}`);
-    console.log('pickedDate:', this.pickedDate);
+    console.log('pickedDate:', this.pickedDate); //month is not indexed
+
+    //put text in input
+    let formattedDate = this.pickedDate.getFullYear() + '-' + String(this.pickedDate.getMonth()).padStart(2,'0') + "-" + String(this.pickedDate.getDate()).padStart(2,'0');
+    console.log('formattedDate: ', formattedDate);
   }
 
   leftClickHandler = () => {
