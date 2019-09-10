@@ -1,7 +1,7 @@
 class DatePicker {
   //cater for index 0
-	constructor(startYear = new Date().getFullYear(), startMonth=new Date().getMonth(), startOfWeek="sun", limitStartYear=null, limitStartYearMonth=null, limitEndYear=null, limitEndYearMonth=null) {
-		this.datepicker = document.querySelector('input[name="date-input"]');
+	constructor(startYear=null, startMonth=null, startOfWeek="sun", limitStartYear=null, limitStartYearMonth=null, limitEndYear=null, limitEndYearMonth=null) {
+    this.datepicker = document.querySelector('input[name="date-input"]');
 		this.calendar = document.querySelector(".calendar");
     this.arrowLeft = document.querySelector('.arrow.left');
     this.arrowRight = document.querySelector('.arrow.right');
@@ -12,10 +12,10 @@ class DatePicker {
 
     this.limitEndYear = limitEndYear;
     this.limitEndYearMonth = limitEndYearMonth;
-    this.startMonth = startMonth-1;//cater for zero index
-    this.startYear = startYear;
+    this.startYear = (startYear === null)? new Date().getFullYear() : startYear;
+    this.startMonth = (startMonth === null)? new Date().getMonth() : startMonth-1;//cater for zero index
     this.currentMonth = this.startMonth;
-    this.currentYear = startYear;
+    this.currentYear = this.startYear;
 
     //eventlistener
     this.datepicker.addEventListener("click", this.onChooseDate);
@@ -248,8 +248,8 @@ class DatePicker {
 
 //constructor values are non-zero indexed
 
-//startYear > 0, current year: new Date().getFullYear()
-//startMonth = 1-12, current month: new Date().getMonth()
+//startYear > 0, current year: new Date().getFullYear() or null
+//startMonth = 1-12, current month: new Date().getMonth() or null
 
 //startOfWeek = "mon" || "sun"
 
