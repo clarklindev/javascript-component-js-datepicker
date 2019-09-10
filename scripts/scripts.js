@@ -1,6 +1,6 @@
 class DatePicker {
   //cater for index 0
-	constructor(startYear=new Date().getFullYear(), startMonth=new Date().getMonth(), startOfWeek="sun", limitStartYear=null, limitStartYearMonth=null, limitEndYear=null, limitEndYearMonth=null) {
+	constructor(startYear = new Date().getFullYear(), startMonth=new Date().getMonth(), startOfWeek="sun", limitStartYear=null, limitStartYearMonth=null, limitEndYear=null, limitEndYearMonth=null) {
 		this.datepicker = document.querySelector('input[name="date-input"]');
 		this.calendar = document.querySelector(".calendar");
     this.arrowLeft = document.querySelector('.arrow.left');
@@ -165,7 +165,7 @@ class DatePicker {
 
 	onChooseDate = () => {
 		console.log("onChooseDate");
-		//this.calendar.classList.toggle("active");
+		this.calendar.classList.toggle("active");
 	};
 
 	onChooseYear = () => {
@@ -237,7 +237,7 @@ class DatePicker {
   }
 }
 
-//use DatePicker(
+// DatePicker(
 // startYear,
 // startMonth, 
 // startOfWeek, 
@@ -248,8 +248,8 @@ class DatePicker {
 
 //constructor values are non-zero indexed
 
-//startYear > 0
-//startMonth = 1-12
+//startYear > 0, current year: new Date().getFullYear()
+//startMonth = 1-12, current month: new Date().getMonth()
 
 //startOfWeek = "mon" || "sun"
 
@@ -258,4 +258,4 @@ class DatePicker {
 
 //limitEndYear > startYear
 //0 < limitEndMonth < 12
-let d = new DatePicker(new Date().getFullYear(), new Date().getMonth(),"mon", 2018, 4, 2019, 12);
+let d = new DatePicker(2019, 9, "mon", 1970, 1);
