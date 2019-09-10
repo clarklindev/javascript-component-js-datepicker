@@ -1,5 +1,6 @@
 class DatePicker {
-	constructor(startMonth=new Date().getMonth(), startYear=new Date().getFullYear(), startOfWeek="sun", limitStartYear=null, limitEndYear=null) {
+  //cater for index 0
+	constructor(startYear=new Date().getFullYear(), startMonth=new Date().getMonth(), startOfWeek="sun", limitStartYear=null, limitStartYearMonth=null, limitEndYear=null, limitEndYearMonth=null) {
 		this.datepicker = document.querySelector('input[name="date-input"]');
 		this.calendar = document.querySelector(".calendar");
     this.arrowLeft = document.querySelector('.arrow.left');
@@ -7,10 +8,13 @@ class DatePicker {
 
     //keep track of where we are on calendar
     this.limitStartYear = limitStartYear;
+    this.limitStartYearMonth = limitStartYearMonth;
+
     this.limitEndYear = limitEndYear;
-    this.startMonth = startMonth;
+    this.limitEndYearMonth = limitEndYearMonth;
+    this.startMonth = startMonth-1;//cater for zero index
     this.startYear = startYear;
-    this.currentMonth = startMonth;
+    this.currentMonth = this.startMonth;
     this.currentYear = startYear;
 
     //eventlistener
@@ -169,53 +173,89 @@ class DatePicker {
   };
   
   leftClickHandler = () => {
-    console.log('dispatch: leftclick');
+    // console.log('dispatch: leftclick');
     dispatchEvent(new Event('leftclick'));
   }
 
   rightClickHandler = () => {
-    console.log('dispatch: rightclick');    
+    // console.log('dispatch: rightclick');    
     dispatchEvent(new Event('rightclick'));
   }
 
   //this function is called when month/year is updated
   changeDateHandler = (event) => {
-    console.log('changeDateHandler: ', event.type);
+    let updateDate = false;
     switch(event.type){
       case 'leftclick':
         //left 
         if(this.currentYear > this.limitStartYear || this.limitStartYear === null){
           this.currentMonth--;
+          updateDate = true;
           if(this.currentMonth < 0){
             this.currentMonth = 11;
             this.currentYear--;
           }
         }
         else if(this.currentYear === this.limitStartYear){
-          if(this.currentMonth > 0){
+          //-1 caters for index in array
+          if( (this.currentMonth > 0 && this.limitStartYearMonth===null) || (this.currentMonth > this.limitStartYearMonth-1)){
+            updateDate = true;
             this.currentMonth--;
           }
+        }
+        else{
+          console.log('date is out of bounds');
         }
         break;
       case 'rightclick':
         //right
         if(this.currentYear < this.limitEndYear || this.limitEndYear === null){
           this.currentMonth++;
+          updateDate = true;
           if(this.currentMonth > 11){
             this.currentMonth = 0;
             this.currentYear++;
           }
         }
         else if(this.currentYear === this.limitEndYear){
-          if(this.currentMonth < 11){
+          //-1 caters for index in array
+          if( (this.currentMonth < 11 && this.limitEndYearMonth===null) || (this.currentMonth < this.limitEndYearMonth-1)){
+            updateDate = true;
             this.currentMonth++;
           }
+        }
+        else{
+          console.log('date is out of bounds');
         }
         break;
     }
     //update
-    this.updateDate(this.currentMonth, this.currentYear);
+    if(updateDate){
+      console.log('changeDateHandler: ', event.type);
+      this.updateDate(this.currentMonth, this.currentYear);
+    }
   }
 }
 
-let d = new DatePicker(0, 2100,"mon",2099,2101);
+//use DatePicker(
+// startYear,
+// startMonth, 
+// startOfWeek, 
+// limitStartYear, 
+// limitStartYearMonth, 
+// limitEndYear, 
+// limitEndYearMonth) 
+
+//constructor values are non-zero indexed
+
+//startYear > 0
+//startMonth = 1-12
+
+//startOfWeek = "mon" || "sun"
+
+//limitStartYear < startYear
+//0 < limitStartMonth < 12
+
+//limitEndYear > startYear
+//0 < limitEndMonth < 12
+let d = new DatePicker(new Date().getFullYear(), new Date().getMonth(),"mon", 2018, 4, 2019, 12);
