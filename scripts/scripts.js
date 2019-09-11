@@ -25,7 +25,7 @@ class DatePicker {
       1: 'year',
       2: 'month'
     }
-    this.datePickerState = this.datePickerStateOptions[2];
+    this.datePickerState = this.datePickerStateOptions[0];
 
     
     this.datepicker.addEventListener("click", this.onChooseDate);
@@ -174,7 +174,6 @@ class DatePicker {
           dayCount++;
           day.appendChild(dayText);
           day.classList.add('day');
-                  
         }  
            
         row.appendChild(td);
@@ -201,13 +200,9 @@ class DatePicker {
   }
 
 	onChooseDate = () => {
-		console.log("onChooseDate");
-		this.calendar.classList.toggle("active");
+    console.log("onChooseDate");
+    this.calendar.classList.toggle("active");
 	};
-
-	onChooseYear = () => {
-		console.log("hello world");
-  };
 
   dayClickHandler = (event) => {
     if(event.target.className === 'day'){
