@@ -4,8 +4,8 @@
 
 .calendar.active {
   display: block;
-  width: 300px;
-  height: 300px;
+  width:220px;
+  height: auto;
   background-color: white;
   border: 1px solid black;
 }
@@ -18,24 +18,43 @@
 
 .calendar-header .yearandmonth {
   display:flex;
+  cursor: pointer;
 }
 
 .calendar-header .arrow{
   cursor: pointer;
 }
 
+
+/* //day view */
+.calendar-dayview{
+  display: flex;
+  flex-direction: column;
+}
+
 /* //days of the week */
+.calendar-daysofweek{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
 .calendar-daysofweek .row{
   display: flex;
   justify-content: space-between;
   flex-direction:row;
 }
 
+
 /* //days of month */
+.calendar-daysofmonth{
+  display: table;
+}
+
 .calendar-daysofmonth .day{
   text-align:center;
   border:1px solid transparent;
   cursor: pointer;
+  margin: auto;
 }
 
 .calendar-daysofmonth .day:hover{
@@ -51,4 +70,16 @@
 /* //monthly view */
 .calendar-monthview{
   display:none;
+}
+
+.calendar-monthview.active{
+  display:block;
+}
+
+/* yearly view */
+.calendar-yearview{
+  display:none;
+}
+.calendar-yearview.active{
+  display:block;
 }

@@ -51,6 +51,13 @@ class DatePicker {
       10: 'november',
       11: 'december'
     }
+
+    this.datePickerState = {
+      0: 'yearandmonth',
+      1: 'year',
+      2: 'month'
+    }
+    
     this.startOfWeek = startOfWeek; //mon || sun
     this.generateWeekdays();
     this.updateDate(this.currentMonth, this.currentYear);
