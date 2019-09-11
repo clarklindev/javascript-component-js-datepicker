@@ -1,4 +1,5 @@
 "use strict";
+// this is a compiled version parsed via https://babeljs.io/repl that has support for edge
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
