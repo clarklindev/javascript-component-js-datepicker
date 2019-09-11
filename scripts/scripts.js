@@ -12,7 +12,7 @@ class DatePicker {
     this.limitStartYearMonth = limitStartYearMonth;
     this.limitEndYear = limitEndYear;
     this.limitEndYearMonth = limitEndYearMonth;
-    
+
     this.startYear = (startYear === null)? new Date().getFullYear() : startYear;
     this.startMonth = (startMonth === null)? new Date().getMonth() : startMonth-1;//cater for zero index
     this.currentMonth = this.startMonth;//zero-index value
@@ -24,7 +24,7 @@ class DatePicker {
     this.datepicker.addEventListener("click", this.onChooseDate);
     this.arrowLeft.addEventListener('click', this.leftClickHandler);
     this.arrowRight.addEventListener('click', this.rightClickHandler);    
-    this.htmlDaysOfMonth.addEventListener('click', this.dayClickHandler);          
+    this.htmlDaysOfMonth.addEventListener('click', this.dayClickHandler);  
     addEventListener('leftclick', this.changeDateHandler);
     addEventListener('rightclick', this.changeDateHandler);
 
@@ -188,27 +188,30 @@ class DatePicker {
 	onChooseYear = () => {
 		console.log("hello world");
   };
-  
-  dayClickHandler = (event) => {
-    console.log('target:', event.target);
-    if(this.htmlPickedDay !== null){
-      this.htmlPickedDay.classList.remove('active');
-    }
-    this.htmlPickedDay = event.target;
-    //add styling by adding an active class
-    this.htmlPickedDay.classList.add('active');
-    //the day
-    let day = Math.abs(this.htmlPickedDay.innerHTML);
-    console.log('day:', day);
-    //create new date and assign to pickedDate
-    //cater for zero index
-    this.pickedDate = new Date(`${this.currentYear}-${this.currentMonth+1}-${day}`);
-    console.log('pickedDate:', this.pickedDate); //month is not indexed
 
-    //put text in input
-    let formattedDate = this.pickedDate.getFullYear() + '-' + String(this.pickedDate.getMonth()+1).padStart(2,'0') + "-" + String(this.pickedDate.getDate()).padStart(2,'0');
-    console.log('formattedDate: ', formattedDate);
-    this.datepicker.value = formattedDate;
+  dayClickHandler = (event) => {
+    if(event.target.className === 'day'){
+      console.log('target:', event.target.className);
+
+      if(this.htmlPickedDay !== null){
+        this.htmlPickedDay.classList.remove('active');
+      }
+      this.htmlPickedDay = event.target;
+      //add styling by adding an active class
+      this.htmlPickedDay.classList.add('active');
+      //the day
+      let day = Math.abs(this.htmlPickedDay.innerHTML);
+      console.log('day:', day);
+      //create new date and assign to pickedDate
+      //cater for zero index
+      this.pickedDate = new Date(`${this.currentYear}-${this.currentMonth+1}-${day}`);
+      console.log('pickedDate:', this.pickedDate); //month is not indexed
+
+      //put text in input
+      let formattedDate = this.pickedDate.getFullYear() + '-' + String(this.pickedDate.getMonth()+1).padStart(2,'0') + "-" + String(this.pickedDate.getDate()).padStart(2,'0');
+      console.log('formattedDate: ', formattedDate);
+      this.datepicker.value = formattedDate;
+    }
   }
 
   leftClickHandler = () => {
