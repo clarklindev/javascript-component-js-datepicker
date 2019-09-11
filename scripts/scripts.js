@@ -20,6 +20,13 @@ class DatePicker {
     this.htmlPickedDay = null;
     this.pickedDate = null;
 
+    this.datePickerStateOptions = {
+      0: 'yearandmonth',
+      1: 'year',
+      2: 'month'
+    }
+    this.datePickerState = this.datePickerStateOptions[2];
+
     
     this.datepicker.addEventListener("click", this.onChooseDate);
     this.arrowLeft.addEventListener('click', this.leftClickHandler);
@@ -52,11 +59,7 @@ class DatePicker {
       11: 'december'
     }
 
-    this.datePickerState = {
-      0: 'yearandmonth',
-      1: 'year',
-      2: 'month'
-    }
+    
 
     this.startOfWeek = startOfWeek; //mon || sun
     this.generateWeekdays();
@@ -246,47 +249,68 @@ class DatePicker {
     let updateDate = false;
     switch(event.type){
       case 'leftclick':
-        //left 
-        if(this.currentYear > this.limitStartYear || this.limitStartYear === null){
-          this.currentMonth--;
-          updateDate = true;
-          if(this.currentMonth < 0){
-            this.currentMonth = 11;
-            this.currentYear--;
-          }
-        }
-        else if(this.currentYear === this.limitStartYear){
-          //-1 caters for index in array
-          if( (this.currentMonth > 0 && this.limitStartYearMonth===null) || (this.currentMonth > this.limitStartYearMonth-1)){
-            updateDate = true;
-            this.currentMonth--;
-          }
-        }
-        else{
-          console.log('date is out of bounds');
+        switch(this.datePickerState){
+          case "yearandmonth":
+          //left 
+            if(this.currentYear > this.limitStartYear || this.limitStartYear === null){
+              this.currentMonth--;
+              updateDate = true;
+              if(this.currentMonth < 0){
+                this.currentMonth = 11;
+                this.currentYear--;
+              }
+            }
+            else if(this.currentYear === this.limitStartYear){
+              //-1 caters for index in array
+              if( (this.currentMonth > 0 && this.limitStartYearMonth===null) || (this.currentMonth > this.limitStartYearMonth-1)){
+                updateDate = true;
+                this.currentMonth--;
+              }
+            }
+            else{
+              console.log('date is out of bounds');
+            }
+            break;
+          case "year":
+            console.log('year');
+            break;
+          case "month":
+            console.log('month');
+            break;
         }
         break;
+        
       case 'rightclick':
-        //right
-        if(this.currentYear < this.limitEndYear || this.limitEndYear === null){
-          this.currentMonth++;
-          updateDate = true;
-          if(this.currentMonth > 11){
-            this.currentMonth = 0;
-            this.currentYear++;
-          }
+        switch(this.datePickerState){
+          case "yearandmonth":
+            //right
+            if(this.currentYear < this.limitEndYear || this.limitEndYear === null){
+              this.currentMonth++;
+              updateDate = true;
+              if(this.currentMonth > 11){
+                this.currentMonth = 0;
+                this.currentYear++;
+              }
+            }
+            else if(this.currentYear === this.limitEndYear){
+              //-1 caters for index in array
+              if( (this.currentMonth < 11 && this.limitEndYearMonth===null) || (this.currentMonth < this.limitEndYearMonth-1)){
+                updateDate = true;
+                this.currentMonth++;
+              }
+            }
+            else{
+              console.log('date is out of bounds');
+            }
+            break;
+          case "year":
+            console.log('year');
+            break;
+          case "month":
+            console.log('month');
+            break;
         }
-        else if(this.currentYear === this.limitEndYear){
-          //-1 caters for index in array
-          if( (this.currentMonth < 11 && this.limitEndYearMonth===null) || (this.currentMonth < this.limitEndYearMonth-1)){
-            updateDate = true;
-            this.currentMonth++;
-          }
-        }
-        else{
-          console.log('date is out of bounds');
-        }
-        break;
+      break;
     }
     //update
     if(updateDate){
