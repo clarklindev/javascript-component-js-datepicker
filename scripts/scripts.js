@@ -300,4 +300,4 @@ class DatePicker {
 
 //limitEndYear > startYear
 //0 < limitEndMonth < 12
-let d = new DatePicker(1971, 9, "mon", 1970, 1, 1971,12);
+let d = new DatePicker(1971, 9, "sun", 1970, 1, 1971,12);
