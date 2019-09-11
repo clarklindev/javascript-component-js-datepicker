@@ -20,7 +20,7 @@ class DatePicker {
     this.htmlPickedDay = null;
     this.pickedDate = null;
 
-    //eventlistener
+    
     this.datepicker.addEventListener("click", this.onChooseDate);
     this.arrowLeft.addEventListener('click', this.leftClickHandler);
     this.arrowRight.addEventListener('click', this.rightClickHandler);    
@@ -62,7 +62,7 @@ class DatePicker {
     this.generateWeekdays();
     this.updateDate(this.currentMonth, this.currentYear);
   }
-  
+
   updateDate = (monthIndex, year) =>{
     this.generateDaysOfMonth(monthIndex, year);
     this.generateYearAndMonth(monthIndex, year);    
