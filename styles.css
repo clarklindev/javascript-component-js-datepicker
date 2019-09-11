@@ -1,11 +1,22 @@
+
+
 :root{
   --default-padding: 10px;
-  --default-border: 1px solid black;
+  --default-border: 1px solid #d3d3d3;
+  --default-color: #6e6e6e;
 }
+/* //override default text selection color */
+::selection { background: var(--default-color); color:white;/* WebKit/Blink Browsers */ }
+::-moz-selection { background: var(--default-color); color:white;/* Gecko Browsers */ }
+
 
 body{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-sizing:border-box;
+  color: var(--default-color);
+/* //makes text unselectable: */
+  /* user-select: none; */
+
 }
 
 table{
@@ -20,20 +31,23 @@ table{
   display: block;
   width:230px;
   background-color: white;
+  border: var(--default-border);
+  padding: var(--default-padding);
 }
 
 /* //change year section */
 .calendar-header {
   display: flex;
   justify-content: space-between;
-  border: var(--default-border);
-  border-bottom: none;
+  /* border: var(--default-border);
+  border-bottom: none; */
 }
 
 .calendar-header .yearandmonth {
   display:flex;
   cursor: pointer;
   align-items:center;
+  color:var(--default-color);
 }
 
 .calendar-header .year{
@@ -46,6 +60,7 @@ table{
 .calendar-header .arrow{
   cursor: pointer;
   padding: 5px var(--default-padding);
+  user-select: none;
 }
 
 
@@ -66,9 +81,8 @@ table{
   height: 25px;
   padding: 0px;
   box-sizing:border-box;
-  border: var(--default-border);
-  border-bottom: none;
   cursor: default;
+  user-select: none;
 }
 
 /* //days of month */
@@ -82,6 +96,7 @@ table{
   padding: 0px;
   border: var(--default-border);
   box-sizing: content-box;
+  color: var(--default-color);
 }
 
 .calendar-daysofmonth .day{
@@ -93,11 +108,13 @@ table{
   box-sizing: border-box;
 }
 .calendar-daysofmonth .day:hover{
-  background-color:red;
+  background-color:rgba(0,0,0,.2);
+  color: white;
 }
 
 .calendar-daysofmonth .day.active{
-  background-color: red;
+  background-color: rgba(0,0,0,.3);
+  color: white;
 }
 
 /* //monthly view */
