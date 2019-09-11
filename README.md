@@ -9,7 +9,7 @@
 
 ## Algorithms
 * the reason I want to use an algorithm...
-* less mistakes
+* less mistakes (note: this is the formula needed to create a calendar, and its interesting to see how these calculations unfold, however there are quicker methods to deduce certain results required in the Calendar calculations using the html/js Date() class)
 * proven formula for edge cases
 * i think its also so that we can separate actions and visuals from the logic and reuse logic for different ways to present the consistently same results.
 
@@ -39,6 +39,15 @@ const firstDayInMonthIndex = (
 * and then when its a leap year there is 29 days but 28 when it is not, and so this calculated and added to 28.
 * note count index begins at 0 and this gives you an even or odd number
 * also note: there is no year in this calculation, but there is a year variable in the isLeapYear calculation
+
+* you can use the Date class to acquire Days in month..
+* note: lastDay:  //the ,0 is getting the last day of previous month, and so we +1 to current month
+```js
+  let date = new Date();
+  let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  let lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0);
+```
+
 
 ```js
 var daysInMonth = (month === 2) ? (28 + isLeapYear) : 31 - (month - 1) % 7 % 2;
