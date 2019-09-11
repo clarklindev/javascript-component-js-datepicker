@@ -1,7 +1,7 @@
 class DatePicker {
   //cater for index 0
 	constructor(startYear=null, startMonth=null, startOfWeek="sun", limitStartYear=null, limitStartYearMonth=null, limitEndYear=null, limitEndYearMonth=null) {
-    this.datepicker = document.querySelector('input[name="date-input"]');
+    this.datepicker = document.querySelector('.date-picker');
 		this.calendar = document.querySelector(".calendar");
     this.arrowLeft = document.querySelector('.arrow.left');
     this.arrowRight = document.querySelector('.arrow.right');

@@ -1,16 +1,18 @@
-
-
 :root{
   --default-padding: 10px;
   --default-border: 1px solid #d3d3d3;
   --default-color: #6e6e6e;
+  --input-height: 30px;
+  --input-padding: 2px;
+  --transition-default: all 0.2s ease;
 }
 /* //override default text selection color */
 ::selection { background: var(--default-color); color:white;/* WebKit/Blink Browsers */ }
 ::-moz-selection { background: var(--default-color); color:white;/* Gecko Browsers */ }
 
-
 body{
+  padding: 0px;
+  margin: 0px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-sizing:border-box;
   color: var(--default-color);
@@ -19,17 +21,34 @@ body{
 
 }
 
+main{
+  padding: var(--default-padding);
+}
+
 table{
   border-collapse: collapse;
 }
 
+/* non-calendar related css above except the css variables in :root*/
+/* ----------------------------------------------------- */
+
+/* remove glow aroud input */
+input:focus{
+  outline:none;
+}
+button:focus{
+  outline:none;
+}
+
 .calendar {
+  margin-top:5px;
   display: none;
+  box-sizing: border-box;
 }
 
 .calendar.active {
   display: block;
-  width:230px;
+  width:250px;
   background-color: white;
   border: var(--default-border);
   padding: var(--default-padding);
@@ -132,4 +151,58 @@ table{
 }
 .calendar-yearview.active{
   display:block;
+}
+
+/* input */
+.date-picker {
+  height: var(--input-height);
+  width: 250px;
+	padding: var(--input-padding);
+	box-sizing: border-box;
+	border: var(--default-border);
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	justify-content: flex-end;
+	padding: 0;
+	transition: var(--transition-default);
+}
+.date-picker:hover {
+  border: var(--default-border);
+  transition: var(--transition-default);
+}
+
+	/* // content box ignores borders and padding in the calculation so to calculate actual height (paddingx2 + borderx2 + height) */
+.date-picker input {
+  box-sizing: border-box;
+  width: 100%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 1;
+  height: calc(var(--input-height) - 2 * var(--input-padding));
+  padding: 5px 10px;
+  border: none;
+  color: var(--default-color);
+  background-color: white;
+  transition: var(--transition-default);
+  cursor: pointer;
+}
+
+.date-picker button {
+  box-sizing: border-box;
+  color: var(--default-color);
+  border:none;
+  border-left:var(--default-border);
+  height: calc(var(--input-height) - 2 * var(--input-padding)) px;
+  padding: var(--input-padding) 10px;
+  flex-basis: 1;
+  flex-shrink: 0;
+  width: 35px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.date-picker:hover button{
+  color: rgba(0,0,0,.3);
 }
