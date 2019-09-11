@@ -227,7 +227,7 @@ class DatePicker {
       //put text in input
       let formattedDate = this.pickedDate.getFullYear() + '-' + String(this.pickedDate.getMonth()+1).padStart(2,'0') + "-" + String(this.pickedDate.getDate()).padStart(2,'0');
       console.log('formattedDate: ', formattedDate);
-      this.datepicker.value = formattedDate;
+      this.datepicker.querySelector('input').value = formattedDate;
     }
   }
 
