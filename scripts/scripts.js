@@ -87,6 +87,12 @@ class DatePicker {
 
   //calculates amount of days in a month of specific year
   //default: current month, current year
+  //NOTE: this function gives same results as when using Date() like: 
+  /*
+    let date = new Date();
+    let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    let lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0); //the ,0 is getting the last day of previous month, and so we +1 to current month
+  */
   daysInMonth = (monthIndex = new Date().getMonth(), year = new Date().getFullYear()) => {
     let month = monthIndex + 1;
     return (month === 2) ? (28 + this.isLeapYear(year)) : 31 - (month - 1) % 7 % 2;
