@@ -1,5 +1,15 @@
+:root{
+  --default-padding: 10px;
+  --default-border: 1px solid black;
+}
+
 body{
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif  
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing:border-box;
+}
+
+table{
+  border-collapse: collapse;
 }
 
 .calendar {
@@ -8,25 +18,34 @@ body{
 
 .calendar.active {
   display: block;
-  width:220px;
-  height: auto;
+  width:230px;
   background-color: white;
-  border: 1px solid black;
 }
 
 /* //change year section */
 .calendar-header {
   display: flex;
   justify-content: space-between;
+  border: var(--default-border);
+  border-bottom: none;
 }
 
 .calendar-header .yearandmonth {
   display:flex;
   cursor: pointer;
+  align-items:center;
+}
+
+.calendar-header .year{
+  padding: 0 5px;
+}
+.calendar-header .month{
+  padding: 0 5px;
 }
 
 .calendar-header .arrow{
   cursor: pointer;
+  padding: 5px var(--default-padding);
 }
 
 
@@ -34,42 +53,52 @@ body{
 .calendar-dayview{
   display: flex;
   flex-direction: column;
+  padding:0px;
 }
 
 /* //days of the week */
 .calendar-daysofweek{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  font-size: .8em;
+  display: table;
 }
-.calendar-daysofweek .row{
-  display: flex;
-  justify-content: space-between;
-  flex-direction:row;
+.calendar-daysofweek th{
+  width: 30px;
+  height: 25px;
+  padding: 0px;
+  box-sizing:border-box;
+  border: var(--default-border);
+  border-bottom: none;
+  cursor: default;
 }
-
 
 /* //days of month */
 .calendar-daysofmonth{
   display: table;
 }
 
-.calendar-daysofmonth .day{
-  text-align:center;
-  border:1px solid transparent;
-  cursor: pointer;
-  margin: auto;
+.calendar-daysofmonth td{
+  width: 30px;
+  height: 25px;
+  padding: 0px;
+  border: var(--default-border);
+  box-sizing: content-box;
 }
 
-.calendar-daysofmonth .day:hover{
-  border:1px solid red;
-  box-sizing:border-box;
+.calendar-daysofmonth .day{
+  text-align:center;
+  cursor: pointer;
+  padding: 0px;
+  width:100%;
+  height:100%;
+  box-sizing: border-box;
 }
- 
+.calendar-daysofmonth .day:hover{
+  background-color:red;
+}
+
 .calendar-daysofmonth .day.active{
   background-color: red;
 }
-
 
 /* //monthly view */
 .calendar-monthview{

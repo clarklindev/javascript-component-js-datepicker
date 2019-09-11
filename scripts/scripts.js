@@ -57,7 +57,7 @@ class DatePicker {
       1: 'year',
       2: 'month'
     }
-    
+
     this.startOfWeek = startOfWeek; //mon || sun
     this.generateWeekdays();
     this.updateDate(this.currentMonth, this.currentYear);
@@ -96,8 +96,10 @@ class DatePicker {
 	generateWeekdays = () => {
     let daysOfWeek = document.querySelector(".calendar-daysofweek");
     daysOfWeek.innerHTML = "";
+    let row = document.createElement("tr");
+
 		for (let i = 0; i < Object.keys(this.daysOfWeekLabels).length; i++) {
-      let day = document.createElement("td");
+      let day = document.createElement("th");
       let posInArray;
 
       //start of week is sunday
@@ -113,8 +115,9 @@ class DatePicker {
         }
       }
 			let dayText = document.createTextNode(this.daysOfWeekLabels[posInArray]);
-			day.appendChild(dayText);
-			daysOfWeek.appendChild(day);
+      day.appendChild(dayText);
+      daysOfWeek.appendChild(row);
+			row.appendChild(day);
 		}
   };
 
@@ -163,7 +166,8 @@ class DatePicker {
           day.appendChild(dayText);
           day.classList.add('day');
                   
-        }                
+        }  
+           
         row.appendChild(td);
 
         //selected day is highlighted
