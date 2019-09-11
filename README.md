@@ -61,4 +61,8 @@ var isLeapYear = (year % 4) || ((year % 100 === 0) && (year % 400)) ? 0 : 1;
 * figure out how many lines (weeks) should show for each month block, this should a fixed consistent size accross all months
 * styling days of month not related to current month differently
 
+## Backward Compatibility
+* this is a tough one, makes your hair go grey when you try do compatibility check for ie9
+* whole bunch of es6 syntax is not supported
+* feels like hacking, my solution will not support IE as it will require majority of the time to get it to work, for Edge have opted to use babbel to convert js to es2015 and it seems to work fine
 
