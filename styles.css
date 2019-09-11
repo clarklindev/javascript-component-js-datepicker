@@ -21,12 +21,13 @@
 
 /* //days of month */
 .calendar-daysofmonth .day{
+  border:1px solid transparent;
   cursor: pointer;
 }
 
 .calendar-daysofmonth .day:hover{
-  color:white;
-  background-color: red;
+  border:1px solid red;
+  box-sizing:border-box;
 }
  
 .calendar-daysofmonth .day.active{
