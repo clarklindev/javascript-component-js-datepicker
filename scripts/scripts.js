@@ -310,7 +310,7 @@ class Datepicker {
 
 	//this function is called when month/year is updated
 	changeDateHandler = event => {
-		let updateDate = false;
+		let shouldUpdate = false;
 		switch (event.type) {
 			case "leftclick":
 				switch (this.datePickerState) {
@@ -321,7 +321,7 @@ class Datepicker {
 							this.limitStartYear === null
 						) {
 							this.currentMonth--;
-							updateDate = true;
+							shouldUpdate = true;
 							if (this.currentMonth < 0) {
 								this.currentMonth = 11;
 								this.currentYear--;
@@ -332,7 +332,7 @@ class Datepicker {
 								(this.currentMonth > 0 && this.limitStartYearMonth === null) ||
 								this.currentMonth > this.limitStartYearMonth - 1
 							) {
-								updateDate = true;
+								shouldUpdate = true;
 								this.currentMonth--;
 							}
 						} else {
@@ -357,7 +357,7 @@ class Datepicker {
 							this.limitEndYear === null
 						) {
 							this.currentMonth++;
-							updateDate = true;
+							shouldUpdate = true;
 							if (this.currentMonth > 11) {
 								this.currentMonth = 0;
 								this.currentYear++;
@@ -368,7 +368,7 @@ class Datepicker {
 								(this.currentMonth < 11 && this.limitEndYearMonth === null) ||
 								this.currentMonth < this.limitEndYearMonth - 1
 							) {
-								updateDate = true;
+								shouldUpdate = true;
 								this.currentMonth++;
 							}
 						} else {
@@ -385,7 +385,7 @@ class Datepicker {
 				break;
 		}
 		//update
-		if (updateDate) {
+		if (shouldUpdate) {
 			console.log("changeDateHandler: ", event.type);
 			this.updateDate(this.currentMonth, this.currentYear);
 		}
