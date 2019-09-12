@@ -214,22 +214,23 @@ class Datepicker {
 			}
 			this.htmlDaysOfMonth.appendChild(row);
 		}
-	};
+  };
+  
+  generateYear = (year = new Date().getFullYear()) => {
+    this.htmlYearAndMonth.querySelector(".year").innerHTML = "";
+    this.htmlYearAndMonth.querySelector(".year").appendChild(document.createTextNode(year));
+  }
 
-	generateYearAndMonth = (
-		monthIndex = new Date().getMonth(),
-		year = new Date().getFullYear()
-	) => {
-		this.htmlYearAndMonth.querySelector(".year").innerHTML = "";
-		this.htmlYearAndMonth.querySelector(".month").innerHTML = "";
-		this.htmlYearAndMonth
-			.querySelector(".year")
-      .appendChild(document.createTextNode(year));
+  generateMonth = (monthIndex = new Date().getMonth()) => {
+    this.htmlYearAndMonth.querySelector(".month").innerHTML = "";
     let monthString = this.monthsOfYear[monthIndex];
     let monthStringFormatted = monthString.charAt(0).toUpperCase() + monthString.slice(1);
-    this.htmlYearAndMonth
-			.querySelector(".month")
-			.appendChild(document.createTextNode(monthStringFormatted));
+    this.htmlYearAndMonth.querySelector(".month").appendChild(document.createTextNode(monthStringFormatted));
+  }
+
+	generateYearAndMonth = (monthIndex = new Date().getMonth(), year = new Date().getFullYear()) => {
+    this.generateYear(year);
+    this.generateMonth(monthIndex);
 	};
 
 	onChooseDate = () => {
