@@ -52,6 +52,7 @@ button:focus {
 }
 
 .calendar.active {
+	position: absolute;
 	display: block;
 	width: 250px;
 	background-color: white;
@@ -170,7 +171,7 @@ button:focus {
 }
 
 /* input */
-.date-picker {
+.dateinput {
 	height: var(--input-height);
 	width: 250px;
 	padding: var(--input-padding);
@@ -188,13 +189,13 @@ button:focus {
 	padding: 0;
 	transition: var(--transition-default);
 }
-.date-picker:hover {
+.dateinput:hover {
 	border: var(--default-border);
 	transition: var(--transition-default);
 }
 
 /* // content box ignores borders and padding in the calculation so to calculate actual height (paddingx2 + borderx2 + height) */
-.date-picker input {
+.dateinput input {
 	box-sizing: border-box;
 	width: 100%;
 	flex-grow: 1;
@@ -209,7 +210,7 @@ button:focus {
 	cursor: pointer;
 }
 
-.date-picker button {
+.dateinput button {
 	box-sizing: border-box;
 	color: var(--default-color);
 	border: none;
@@ -223,6 +224,6 @@ button:focus {
 	background-color: white;
 }
 
-.date-picker:hover button {
+.dateinput:hover button {
 	color: rgba(0, 0, 0, 0.3);
 }

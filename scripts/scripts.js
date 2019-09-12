@@ -1,7 +1,7 @@
 class DatePicker {
   //cater for index 0
 	constructor(startYear=null, startMonth=null, startOfWeek="sun", limitStartYear=null, limitStartYearMonth=null, limitEndYear=null, limitEndYearMonth=null) {
-    this.datepicker = document.querySelector('.date-picker');
+    this.dateinput = document.querySelector('.dateinput');
 		this.calendar = document.querySelector(".calendar");
     this.arrowLeft = document.querySelector('.arrow.left');
     this.arrowRight = document.querySelector('.arrow.right');
@@ -28,7 +28,7 @@ class DatePicker {
     this.datePickerState = this.datePickerStateOptions[0];
 
     
-    this.datepicker.addEventListener("click", this.onChooseDate);
+    this.dateinput.addEventListener("click", this.onChooseDate);
     this.arrowLeft.addEventListener('click', this.leftClickHandler);
     this.arrowRight.addEventListener('click', this.rightClickHandler);    
     this.htmlDaysOfMonth.addEventListener('click', this.dayClickHandler);  
@@ -225,7 +225,7 @@ class DatePicker {
       //put text in input
       let formattedDate = this.pickedDate.getFullYear() + '-' + String(this.pickedDate.getMonth()+1).padStart(2,'0') + "-" + String(this.pickedDate.getDate()).padStart(2,'0');
       console.log('formattedDate: ', formattedDate);
-      this.datepicker.querySelector('input').value = formattedDate;
+      this.dateinput.querySelector('input').value = formattedDate;
     }
   }
 
