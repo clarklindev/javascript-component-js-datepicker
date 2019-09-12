@@ -234,14 +234,21 @@ class Datepicker {
     console.log("onChooseDate");
     //filter all calendar and hide and show this one
     let allCalendar = document.querySelectorAll('.calendar');
+    if(this.pickedDate){
+      //make sure that if we move away and close the calendar, when we open it again it is on the same day/month as that which was picked
+      this.currentMonth = this.pickedDate.getMonth();
+      this.currentYear = this.pickedDate.getFullYear();
+      console.log('picked month: ', this.pickedDate.getMonth());
+      this.updateDate(this.pickedDate.getMonth(), this.pickedDate.getFullYear());
+    }
     Array.from(allCalendar).filter(each=>{
-      if(each === this.calendar){
+      if(each === this.calendar){        
         each.classList.toggle("active");
       }
       else{
         each.classList.toggle("active", false);
       }
-    })
+    });
 	};
 
 	dayClickHandler = event => {
