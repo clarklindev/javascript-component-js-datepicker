@@ -68,7 +68,6 @@ class Datepicker {
 		this.currentMonth = this.startMonth; //zero-index value
 		this.currentYear = this.startYear;
     this.htmlPickedDay = null;
-    this.htmlPickedMonth = null;
 		this.pickedDate = null;
 
     //set initial state
@@ -376,11 +375,6 @@ class Datepicker {
       console.log('target: ', event.target.className);
       console.log('event.target.innerText: ', event.target.innerText);
     }
-    if(this.htmlPickedMonth !== null){
-      this.htmlPickedMonth.classList.remove('active');
-    }
-    this.htmlPickedMonth = event.target;
-    this.htmlPickedMonth.classList.add("active");
 
     //goto day view
     let selectedMonth =
