@@ -16,8 +16,8 @@ class Datepicker {
 		this.dateinput = this.instance.querySelector(".dateinput");
 		this.calendar = this.instance.querySelector(".calendar");
 		this.htmlYearAndMonth = this.instance.querySelector(".yearandmonth");
-		this.arrowLeft = this.calendar.querySelector(".arrow.left");
-		this.arrowRight = this.calendar.querySelector(".arrow.right");
+		this.chevronTop = this.calendar.querySelector(".chevron.top");
+		this.chevronBottom = this.calendar.querySelector(".chevron.bottom");
 		this.htmlDaysOfMonth = this.instance.querySelector(".calendar-daysofmonth");
 
 		//keep track of where we are on calendar
@@ -42,8 +42,8 @@ class Datepicker {
 		this.datePickerState = this.datePickerStateOptions[0];
 
 		this.dateinput.addEventListener("click", this.onChooseDate);
-		this.arrowLeft.addEventListener("click", this.leftClickHandler);
-		this.arrowRight.addEventListener("click", this.rightClickHandler);
+		this.chevronTop.addEventListener("click", this.leftClickHandler);
+		this.chevronBottom.addEventListener("click", this.rightClickHandler);
 		this.htmlDaysOfMonth.addEventListener("click", this.dayClickHandler);
     this.htmlYearAndMonth.addEventListener('click', this.yearAndMonthClickHandler);
 		//class listener
@@ -233,6 +233,16 @@ class Datepicker {
     this.generateMonth(monthIndex);
 	};
 
+  // Show an element
+  show = (elem) => {
+    elem.classList.remove('hide');
+  };
+
+  // Hide an element
+  hide = (elem) => {
+    elem.classList.add('hide');
+  };
+
 	onChooseDate = () => {
 		console.log("onChooseDate");
 		//filter all calendar and hide and show this one
@@ -259,10 +269,26 @@ class Datepicker {
   yearAndMonthClickHandler = event =>{
     switch(event.target.className){
       case "year":
-        console.log('year: ');
+        console.log('year');
+        //setting state
+        this.datePickerState = this.datePickerStateOptions[1];
+        //show years
+        //show arrows
+        this.show(this.chevronTop);
+        this.show(this.chevronBottom);
+        this.hide(this.htmlYearAndMonth.querySelector(".month"));
+        //hide days
         break;
       case "month":
-        console.log('month: ');
+        console.log('month');
+        //setting state
+        this.datePickerState = this.datePickerStateOptions[2];        
+        //hide arrows
+        this.hide(this.chevronTop);
+        this.hide(this.chevronBottom);
+        this.hide(this.htmlYearAndMonth.querySelector(".month"));
+        //hide month
+        //hide days
         break;
     }
   }
@@ -285,7 +311,10 @@ class Datepicker {
 			this.pickedDate = new Date(
 				`${this.currentYear}-${this.currentMonth + 1}-${day}`
 			);
-			console.log("pickedDate:", this.pickedDate); //month is not indexed
+      console.log("pickedDate:", this.pickedDate); //month is not indexed
+      
+      //set the state to picking day
+      this.datePickerState = this.datePickerStateOptions[0];
 
 			//put text in input
 			let formattedDate =
@@ -300,7 +329,7 @@ class Datepicker {
 	};
 
 	leftClickHandler = () => {
-		console.log("dispatch: leftclick");
+		// console.log("dispatch: leftclick");
 		this.instance.dispatchEvent(new Event("leftclick"));
 	};
 

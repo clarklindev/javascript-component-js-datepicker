@@ -34,6 +34,10 @@ table {
 	border-collapse: collapse;
 }
 
+.hide{
+	display:none;
+}
+
 /* non-calendar related css above except the css variables in :root*/
 /* ----------------------------------------------------- */
 
@@ -81,6 +85,7 @@ button:focus {
 	cursor: pointer;
 	align-items: center;
 	color: var(--default-color);
+	height:35px;
 }
 
 .calendar-header .year {
@@ -90,11 +95,48 @@ button:focus {
 	padding: 0 5px;
 }
 
-.calendar-header .arrow {
+.calendar-header .arrows{
+	/* padding: 0 5px; */
+	display:flex;
+}
+.calendar-header .chevron {
 	cursor: pointer;
-	padding: 5px var(--default-padding);
+	padding: 0 10px;
 	user-select: none;
 }
+
+.chevron::before {
+	border-width: 2px 2px 0 0;
+	width: 5px;
+	height: 5px;
+	border-style: solid;
+	content: '';
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+}
+
+.chevron.top:before{
+	top: 0.25em;
+	/* top: 0em; */
+	transform: rotate(-45deg);  
+}
+
+.chevron.right:before {
+	left: 0;
+	transform: rotate(45deg);
+}
+
+.chevron.bottom:before {
+	top: 0;
+	transform: rotate(135deg);
+}
+
+.chevron.left:before {
+	left: 0.25em;
+	transform: rotate(-135deg);
+}
+
 
 /* //day view */
 .calendar-dayview {
