@@ -35,7 +35,7 @@ table {
 }
 
 .hide{
-	display:none;
+	display:none !important;
 }
 
 /* non-calendar related css above except the css variables in :root*/
@@ -195,22 +195,6 @@ button:focus {
 	color: white;
 }
 
-/* //monthly view */
-.calendar-monthview {
-	display: none;
-}
-
-.calendar-monthview.active {
-	display: block;
-}
-
-/* yearly view */
-.calendar-yearview {
-	display: none;
-}
-.calendar-yearview.active {
-	display: block;
-}
 
 /* input */
 .dateinput {
