@@ -87,7 +87,6 @@ class Datepicker {
 		this.startOfWeek = startOfWeek; //mon || sun
     this.generateWeekdays();
     this.generateCalendarMonths();
-    this.generateCalendarDecade();
 		this.updateDate(this.currentMonth, this.currentYear);
 	}
 
@@ -234,6 +233,14 @@ class Datepicker {
     this.htmlYearAndMonth.querySelector(".year").appendChild(document.createTextNode(year));
   }
 
+  
+  generateDecade = (year = new Date().getFullYear()) => {
+    this.htmlYearAndMonth.querySelector(".year").innerHTML = "";
+    let decadeString = Math.floor(year / 10) * 10;
+    let decadeStringFormatted = `${decadeString}-${decadeString+9}`;
+    this.htmlYearAndMonth.querySelector(".year").appendChild(document.createTextNode(decadeStringFormatted));
+  }  
+
   //generate current view month
   generateMonth = (monthIndex = new Date().getMonth()) => {
     this.htmlYearAndMonth.querySelector(".month").innerHTML = "";
@@ -272,10 +279,7 @@ class Datepicker {
       calendarMonthsOfYear.appendChild(row);
     }
   }
-  
-  generateCalendarDecade = (year = new Date().getFullYear()) => {
-    console.log('decade: ', Math.floor(year / 10) * 10);
-  }
+
 
   // Show an element
   show = (elem) => {
@@ -347,6 +351,7 @@ class Datepicker {
         this.hide(this.calendarMonthView);
         //show years
         this.show(this.calendarYearview);
+        this.generateDecade(this.currentYear);
         break;
       case "month":
         console.log('month');
@@ -480,7 +485,8 @@ class Datepicker {
 						}
 						break;
 					case "year":
-						console.log("year");
+            console.log("year");
+            this.generateDecade(this.currentYear);
 						break;
 					case "month":
             console.log("month");
@@ -517,7 +523,8 @@ class Datepicker {
 						}
 						break;
 					case "year":
-						console.log("year");
+            console.log("year");
+            this.generateDecade(this.currentYear);
 						break;
 					case "month":
             console.log("month");
