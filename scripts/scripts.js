@@ -11,50 +11,9 @@ class Datepicker {
 		limitEndYearMonth = null
 	) {
 		this.instance = obj;
-		console.log("this.instance: ", this.instance);
-
-		this.dateinput = this.instance.querySelector(".dateinput");
-    this.calendar = this.instance.querySelector(".calendar");
-    this.calendarDayView = this.instance.querySelector(".calendar-dayview");
-    this.calendarMonthView = this.instance.querySelector(".calendar-monthview");
-    this.calendarYearview = this.instance.querySelector(".calendar-yearview");
-
-		this.htmlYearAndMonth = this.instance.querySelector(".yearandmonth");
-		this.chevronTop = this.calendar.querySelector(".chevron.top");
-		this.chevronBottom = this.calendar.querySelector(".chevron.bottom");
-		this.htmlDaysOfMonth = this.instance.querySelector(".calendar-daysofmonth");
-
-		//keep track of where we are on calendar
-		this.limitStartYear = limitStartYear;
-		this.limitStartYearMonth = limitStartYearMonth;
-		this.limitEndYear = limitEndYear;
-		this.limitEndYearMonth = limitEndYearMonth;
-
-		this.startYear = startYear === null ? new Date().getFullYear() : startYear;
-		this.startMonth =
-			startMonth === null ? new Date().getMonth() : startMonth - 1; //cater for zero index
-		this.currentMonth = this.startMonth; //zero-index value
-		this.currentYear = this.startYear;
-		this.htmlPickedDay = null;
-		this.pickedDate = null;
-
-		this.datePickerStateOptions = {
-			0: "yearandmonth",
-			1: "year",
-			2: "month"
-		};
-		this.datePickerState = this.datePickerStateOptions[0];
-
-		this.dateinput.addEventListener("click", this.onChooseDate);
-		this.chevronTop.addEventListener("click", this.leftClickHandler);
-		this.chevronBottom.addEventListener("click", this.rightClickHandler);
-		this.htmlDaysOfMonth.addEventListener("click", this.dayClickHandler);
-    this.htmlYearAndMonth.addEventListener('click', this.yearAndMonthClickHandler);
-		//class listener
-		this.instance.addEventListener("leftclick", this.changeDateHandler);
-		this.instance.addEventListener("rightclick", this.changeDateHandler);
-
-		this.daysOfWeekLabels = {
+    console.log("this.instance: ", this.instance);
+    
+    this.daysOfWeekLabels = {
 			0: "sun",
 			1: "mon",
 			2: "tue",
@@ -76,10 +35,59 @@ class Datepicker {
 			9: "october",
 			10: "november",
 			11: "december"
+    };
+    
+    this.datePickerStateOptions = {
+			0: "yearandmonth",
+			1: "year",
+			2: "month"
 		};
 
+		this.dateinput = this.instance.querySelector(".dateinput");
+    this.calendar = this.instance.querySelector(".calendar");
+    this.calendarDayView = this.instance.querySelector(".calendar-dayview");
+    this.calendarMonthView = this.instance.querySelector(".calendar-monthview");
+    this.calendarYearview = this.instance.querySelector(".calendar-yearview");
+    
+    this.chevronTop = this.calendar.querySelector(".chevron.top");
+		this.chevronBottom = this.calendar.querySelector(".chevron.bottom");
+    
+		this.htmlYearAndMonth = this.instance.querySelector(".yearandmonth");
+		this.htmlDaysOfMonth = this.instance.querySelector(".calendar-daysofmonth");
+    this.htmlMonthsOfYear = this.instance.querySelector(".calendar-monthsofyear");
+
+		//keep track of where we are on calendar
+		this.limitStartYear = limitStartYear;
+		this.limitStartYearMonth = limitStartYearMonth;
+		this.limitEndYear = limitEndYear;
+		this.limitEndYearMonth = limitEndYearMonth;
+
+		this.startYear = startYear === null ? new Date().getFullYear() : startYear;
+		this.startMonth =
+			startMonth === null ? new Date().getMonth() : startMonth - 1; //cater for zero index
+		this.currentMonth = this.startMonth; //zero-index value
+		this.currentYear = this.startYear;
+    this.htmlPickedDay = null;
+    this.htmlPickedMonth = null;
+		this.pickedDate = null;
+
+    //set initial state
+		this.datePickerState = this.datePickerStateOptions[0];
+
+		this.dateinput.addEventListener("click", this.onShowCalendar);
+		this.chevronTop.addEventListener("click", this.leftClickHandler);
+		this.chevronBottom.addEventListener("click", this.rightClickHandler);
+    this.htmlDaysOfMonth.addEventListener("click", this.dayClickHandler);
+    this.htmlMonthsOfYear.addEventListener('click', this.monthClickHandler);
+    this.htmlYearAndMonth.addEventListener('click', this.yearAndMonthClickHandler);
+		//class listener
+		this.instance.addEventListener("leftclick", this.changeDateHandler);
+		this.instance.addEventListener("rightclick", this.changeDateHandler);
+
 		this.startOfWeek = startOfWeek; //mon || sun
-		this.generateWeekdays();
+    this.generateWeekdays();
+    this.generateCalendarMonths();
+    this.generateCalendarDecade();
 		this.updateDate(this.currentMonth, this.currentYear);
 	}
 
@@ -89,39 +97,39 @@ class Datepicker {
 	};
 
 	//pass in 2 optional props: month(zero indexed), year.
-	//default uses current month and year
-	//returns zero index day of week 0-sunday...6-saturday
-	firstDayInMonthIndex = (
-		monthIndex = new Date().getMonth(),
-		year = new Date().getFullYear()
-	) => {
-		let month = monthIndex + 1;
-		return new Date(`${year}-${month}-01`).getDay();
-	};
+  //default uses current month and year
+  //returns zero index day of week 0-sunday...6-saturday
+  firstDayInMonthIndex = (
+    monthIndex = new Date().getMonth(),
+    year = new Date().getFullYear()
+  )=>{
+    let month = monthIndex + 1;
+    return new Date(`${year}-${month}-01`).getDay();
+  };
 
-	//returns 0 or 1,
-	//defaults to using current year
-	isLeapYear = (year = new Date().getFullYear()) => {
-		return year % 4 || (year % 100 === 0 && year % 400) ? 0 : 1;
-	};
+  //returns 0 or 1,
+  //defaults to using current year
+  isLeapYear = (year = new Date().getFullYear()) => {
+    return year % 4 || (year % 100 === 0 && year % 400) ? 0 : 1;
+  };
 
-	//calculates amount of days in a month of specific year
-	//default: current month, current year
-	//NOTE: this function gives same results as when using Date() like:
-	/*
+  //calculates amount of days in a month of specific year
+  //default: current month, current year
+  //NOTE: this function gives same results as when using Date() like:
+  /*
     let date = new Date();
     let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     let lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0); //the ,0 is getting the last day of previous month, and so we +1 to current month
     */
-	daysInMonth = (
-		monthIndex = new Date().getMonth(),
-		year = new Date().getFullYear()
-	) => {
-		let month = monthIndex + 1;
-		return month === 2
-			? 28 + this.isLeapYear(year)
-			: 31 - (((month - 1) % 7) % 2);
-	};
+  daysInMonth = (
+    monthIndex = new Date().getMonth(),
+    year = new Date().getFullYear()
+  ) => {
+    let month = monthIndex + 1;
+    return month === 2
+      ? 28 + this.isLeapYear(year)
+      : 31 - (((month - 1) % 7) % 2);
+  };
 
 	//creates the header for days of week
 	generateWeekdays = () => {
@@ -220,11 +228,13 @@ class Datepicker {
 		}
   };
   
+  //generate current view year
   generateYear = (year = new Date().getFullYear()) => {
     this.htmlYearAndMonth.querySelector(".year").innerHTML = "";
     this.htmlYearAndMonth.querySelector(".year").appendChild(document.createTextNode(year));
   }
 
+  //generate current view month
   generateMonth = (monthIndex = new Date().getMonth()) => {
     this.htmlYearAndMonth.querySelector(".month").innerHTML = "";
     let monthString = this.monthsOfYear[monthIndex];
@@ -232,10 +242,40 @@ class Datepicker {
     this.htmlYearAndMonth.querySelector(".month").appendChild(document.createTextNode(monthStringFormatted));
   }
 
-	generateYearAndMonth = (monthIndex = new Date().getMonth(), year = new Date().getFullYear()) => {
+  //generate current year and month
+  generateYearAndMonth = (monthIndex = new Date().getMonth(), year = new Date().getFullYear()) => {
     this.generateYear(year);
     this.generateMonth(monthIndex);
 	};
+
+  generateCalendarMonths = () => {
+    const totalMonths = Object.keys(this.monthsOfYear).length;
+    const rows = 4;
+    const cols = 3;
+    let counter = 0;    
+    let calendarMonthsOfYear = this.calendarMonthView.querySelector('.calendar-monthsofyear');
+    for(var k = 0; k < rows; k++){      
+      let row = document.createElement("tr");
+      for(var i=0; i< cols; i++){
+        if(counter < totalMonths){
+          let td = document.createElement('td');
+          let month = document.createElement('div');
+          let monthString = this.monthsOfYear[counter];
+          let monthStringFormatted = monthString.charAt(0).toUpperCase() + monthString.slice(1,3);          
+          month.appendChild(document.createTextNode(monthStringFormatted));
+          month.classList.add("month");
+          td.appendChild(month);
+          row.appendChild(td);
+          counter++;
+        }			
+      }
+      calendarMonthsOfYear.appendChild(row);
+    }
+  }
+  
+  generateCalendarDecade = (year = new Date().getFullYear()) => {
+    console.log('decade: ', Math.floor(year / 10) * 10);
+  }
 
   // Show an element
   show = (elem) => {
@@ -247,8 +287,9 @@ class Datepicker {
     elem.classList.add('hide');
   };
 
-	onChooseDate = () => {
-		console.log("onChooseDate");
+  //when in put or calendar icon is clicked
+	onShowCalendar = () => {
+		console.log("onShowCalendar");
 		//filter all calendar and hide and show this one
 		let allCalendar = document.querySelectorAll(".calendar");
 		if (this.pickedDate) {
@@ -323,6 +364,42 @@ class Datepicker {
         this.hide(this.calendarDayView);
         break;
     }
+  }
+
+  monthClickHandler = event =>{
+    if(event.target.className === "month"){
+      console.log('target: ', event.target.className);
+      console.log('event.target.innerText: ', event.target.innerText);
+    }
+    if(this.htmlPickedMonth !== null){
+      this.htmlPickedMonth.classList.remove('active');
+    }
+    this.htmlPickedMonth = event.target;
+    this.htmlPickedMonth.classList.add("active");
+
+    //goto day view
+    let selectedMonth =
+    Object.keys(this.monthsOfYear).filter(key=>{
+      let monthInMonthsOfYear = this.monthsOfYear[key].substr(0,3).toLowerCase();
+      let clickedMonth = event.target.innerText.toLowerCase();
+      // console.log('in arr: ', monthInMonthsOfYear, 'clicked Month: ', clickedMonth);
+      return monthInMonthsOfYear === clickedMonth;
+    });
+    console.log('selectedMonth:' , parseInt(selectedMonth[0])); //zero-indexed+1 for viewer to see which month
+    this.currentMonth = parseInt(selectedMonth[0]);
+    //show days
+    this.show(this.calendarDayView);
+    //show arrows
+    this.show(this.chevronTop);
+    this.show(this.chevronBottom);  
+    this.show(this.htmlYearAndMonth.querySelector(".month"));
+    //hide month
+    this.hide(this.calendarMonthView);
+    //show years
+    this.hide(this.calendarYearview);
+    this.updateDate(this.currentMonth, this.currentYear);
+    //set the state to picking day
+    this.datePickerState = this.datePickerStateOptions[0];
   }
 
 	dayClickHandler = event => {
@@ -406,7 +483,8 @@ class Datepicker {
 						console.log("year");
 						break;
 					case "month":
-						console.log("month");
+            console.log("month");
+            //dont do anything
 						break;
 				}
 				break;
@@ -442,7 +520,8 @@ class Datepicker {
 						console.log("year");
 						break;
 					case "month":
-						console.log("month");
+            console.log("month");
+            //dont do anything
 						break;
 				}
 				break;

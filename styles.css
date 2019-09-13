@@ -59,6 +59,7 @@ button:focus {
 	position: absolute;
 	display: block;
 	width: 250px;
+	height: 250px;
 	background-color: white;
 	border: var(--default-border);
 	padding: var(--default-padding);
@@ -147,6 +148,54 @@ button:focus {
 	display: flex;
 	flex-direction: column;
 	padding: 0px;
+}
+
+/* month view */
+/* 
+.calendar-monthview td{
+	padding: var(--default-padding);	
+	box-sizing: content-box;
+	border:1px solid red;
+	width: 50px;
+	height: 26px;
+} */
+/* //days of month */
+.calendar-monthview{
+	display: flex;
+}
+.calendar-monthsofyear {
+	display: table;
+}
+
+.calendar-monthsofyear td {
+	width: 75px;
+	height: 40px;
+	padding: 0px;
+	border: var(--default-border);
+	box-sizing: content-box;
+	color: var(--default-color);
+	text-align: center;
+}
+
+.calendar-monthsofyear .month {
+	text-align: center;
+	cursor: pointer;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.calendar-monthsofyear .month:hover {
+	background-color: rgba(0, 0, 0, 0.2);
+	color: white;
+}
+
+.calendar-monthsofyear .month.active {
+	background-color: rgba(0, 0, 0, 0.3);
+	color: white;
 }
 
 /* //days of the week */
