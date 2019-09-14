@@ -66,7 +66,8 @@ class Datepicker {
 		this.startMonth =
 			startMonth === null ? new Date().getMonth() : startMonth - 1; //cater for zero index
 		this.currentMonth = this.startMonth; //zero-index value
-		this.currentYear = this.startYear;
+    this.currentYear = this.startYear;
+    this.currentDecade = null; //temp variable to store when selecting decade
     this.htmlPickedDay = null;
 		this.pickedDate = null;
 
@@ -110,6 +111,12 @@ class Datepicker {
   isLeapYear = (year = new Date().getFullYear()) => {
     return year % 4 || (year % 100 === 0 && year % 400) ? 0 : 1;
   };
+
+  //get decade
+  getDecade = (year = new Date().getFullYear() ) => {
+    //take the year, divide by ten, then rid the decimal by flooring it, then multiply by 10
+    return Math.floor(year / 10) * 10;
+  }
 
   //calculates amount of days in a month of specific year
   //default: current month, current year
@@ -232,12 +239,12 @@ class Datepicker {
     this.htmlYearAndMonth.querySelector(".year").appendChild(document.createTextNode(year));
   }
 
-  
   generateDecade = (year = new Date().getFullYear()) => {
+    console.log('generateDecade: ', year);
     this.htmlYearAndMonth.querySelector(".year").innerHTML = "";
-    let decadeString = Math.floor(year / 10) * 10;
-    let decadeStringFormatted = `${decadeString}-${decadeString+9}`;
-    this.htmlYearAndMonth.querySelector(".year").appendChild(document.createTextNode(decadeStringFormatted));
+    let decadeString = this.getDecade(year);
+    let decadeRange = `${decadeString}-${decadeString+9}`;
+    this.htmlYearAndMonth.querySelector(".year").appendChild(document.createTextNode(decadeRange));
   }  
 
   //generate current view month
@@ -303,7 +310,8 @@ class Datepicker {
 			this.updateDate(
 				this.pickedDate.getMonth(),
 				this.pickedDate.getFullYear()
-			);
+      );
+      this.currentDecade = this.getDecade(this.currentYear);
     }
     else{
       //use current date
@@ -312,7 +320,8 @@ class Datepicker {
 			this.updateDate(
 				this.currentMonth,
 				this.currentYear
-			);
+      );
+      this.currentDecade = this.getDecade(this.currentYear);
     }
 		Array.from(allCalendar).filter(each => {
 			if (each === this.calendar) {
@@ -339,6 +348,10 @@ class Datepicker {
       case "year":
         console.log('year');
         //setting state
+        //only generate if current state is not on decade
+        if(this.datePickerState !== this.datePickerStateOptions[1]){
+          this.generateDecade(this.currentYear);
+        }
         this.datePickerState = this.datePickerStateOptions[1];
         //show arrows
         this.show(this.chevronTop);
@@ -350,7 +363,7 @@ class Datepicker {
         this.hide(this.calendarMonthView);
         //show years
         this.show(this.calendarYearview);
-        this.generateDecade(this.currentYear);
+        
         break;
       case "month":
         console.log('month');
@@ -480,7 +493,13 @@ class Datepicker {
 						break;
 					case "year":
             console.log("year");
-            this.generateDecade(this.currentYear);
+            if(this.currentDecade === null){
+              this.currentDecade = this.getDecade(this.currentYear);            
+            }          
+            let previousDecade = parseInt(this.currentDecade-10);
+            console.log('previousDecade: ', previousDecade);
+            this.generateDecade(previousDecade);
+            this.currentDecade = previousDecade;
 						break;
 					case "month":
             console.log("month");
@@ -518,7 +537,13 @@ class Datepicker {
 						break;
 					case "year":
             console.log("year");
-            this.generateDecade(this.currentYear);
+            if(this.currentDecade === null){
+              this.currentDecade = this.getDecade(this.currentYear);            
+            }          
+            let nextDecade = parseInt(this.currentDecade+10);
+            console.log('nextDecade: ', nextDecade);
+            this.generateDecade(nextDecade);
+            this.currentDecade = nextDecade;
 						break;
 					case "month":
             console.log("month");

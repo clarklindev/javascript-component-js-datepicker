@@ -165,6 +165,7 @@ button:focus {
 }
 .calendar-monthsofyear {
 	display: table;
+	width: 100%;
 }
 
 .calendar-monthsofyear td {
@@ -202,6 +203,7 @@ button:focus {
 .calendar-daysofweek {
 	font-size: 0.8em;
 	display: table;
+	width: 100%;
 }
 .calendar-daysofweek th {
 	width: 33px;
