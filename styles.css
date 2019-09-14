@@ -151,18 +151,11 @@ button:focus {
 }
 
 /* month view */
-/* 
-.calendar-monthview td{
-	padding: var(--default-padding);	
-	box-sizing: content-box;
-	border:1px solid red;
-	width: 50px;
-	height: 26px;
-} */
 /* //days of month */
 .calendar-monthview{
 	display: flex;
 }
+
 .calendar-monthsofyear {
 	display: table;
 	width: 100%;
@@ -245,7 +238,6 @@ button:focus {
 	background-color: rgba(0, 0, 0, 0.3);
 	color: white;
 }
-
 
 /* input */
 .dateinput {
