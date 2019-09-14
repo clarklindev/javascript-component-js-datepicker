@@ -433,7 +433,27 @@ class Datepicker {
 		}
 	};
 
-	decadeClickHandler = event => {};
+	decadeClickHandler = event => {
+    if (event.target.className === "year") {
+			console.log("target: ", event.target.className);
+      console.log("event.target.innerText: ", event.target.innerText);
+      this.currentYear = event.target.innerText;
+    }
+
+    //show days
+		this.show(this.calendarDayView);
+		//show arrows
+		this.show(this.chevronTop);
+		this.show(this.chevronBottom);
+		this.show(this.htmlYearAndMonth.querySelector(".month"));
+		//hide month
+		this.hide(this.calendarMonthView);
+		//show years
+		this.hide(this.calendarYearview);
+		this.updateDate(this.currentMonth, this.currentYear);
+		//set the state to picking day
+		this.datePickerState = this.datePickerStateOptions[0];
+  };
 
 	monthClickHandler = event => {
 		if (event.target.className === "month") {
@@ -557,10 +577,6 @@ class Datepicker {
 						this.currentDecade = previousDecade;
 						this.generateCalendarDecade();
 						break;
-					case "month":
-						console.log("month");
-						//dont do anything
-						break;
 				}
 				break;
 
@@ -604,10 +620,6 @@ class Datepicker {
 						this.currentDecade = nextDecade;
 						this.generateCalendarDecade();
 						break;
-					case "month":
-						console.log("month");
-						//dont do anything
-						break;
 				}
 				break;
 		}
@@ -645,6 +657,6 @@ class Datepicker {
 //overlapping elements
 Array.from(document.getElementsByClassName("datepicker")).map(
 	(instance, index) => {
-		return new Datepicker(instance, null, null, "sun", 1970, 1, 2119, 12);
+		return new Datepicker(instance, null, null, "sun", null, null, null, null);
 	}
 );
