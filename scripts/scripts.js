@@ -310,8 +310,8 @@ class Datepicker {
 	//generate years for decade
 	generateCalendarDecade = () => {
 		const totalYears = 10;
-		const rows = 4;
-		const cols = 3;
+		const rows = 5;
+		const cols = 2;
 		let counter = 0;
 		console.log("this.calendarYearview:", this.calendarYearview);
 		let calendarYearsOfDecade = this.calendarYearview.querySelector(
@@ -319,6 +319,7 @@ class Datepicker {
 		);
     calendarYearsOfDecade.innerHTML = "";
     let decade = this.getDecade(this.currentDecade);
+
     console.log('decade: ', decade);
 		for (var k = 0; k < rows; k++) {
 			let row = document.createElement("tr");

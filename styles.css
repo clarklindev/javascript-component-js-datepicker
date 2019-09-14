@@ -150,6 +150,49 @@ button:focus {
 	padding: 0px;
 }
 
+/* year view */
+/* month view */
+/* //days of month */
+.calendar-yearview{
+	display: flex;
+}
+
+.calendar-yearview {
+	display: table;
+	width: 100%;
+}
+
+.calendar-yearview td {
+	width: 75px;
+	height: 35px;
+	padding: 0px;
+	border: var(--default-border);
+	box-sizing: content-box;
+	color: var(--default-color);
+	text-align: center;
+}
+
+.calendar-yearview .year {
+	text-align: center;
+	cursor: pointer;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.calendar-yearview .year:hover {
+	background-color: rgba(0, 0, 0, 0.2);
+	color: white;
+}
+
+.calendar-yearview .year.active {
+	background-color: rgba(0, 0, 0, 0.3);
+	color: white;
+}
+
 /* month view */
 /* //days of month */
 .calendar-monthview{
@@ -163,7 +206,7 @@ button:focus {
 
 .calendar-monthsofyear td {
 	width: 75px;
-	height: 40px;
+	height: 45px;
 	padding: 0px;
 	border: var(--default-border);
 	box-sizing: content-box;
