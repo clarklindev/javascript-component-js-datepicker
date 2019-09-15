@@ -11,8 +11,9 @@ class Datepicker {
 		limitEndYearMonth = null
 	) {
 		this.instance = obj;
-		console.log("this.instance: ", this.instance);
+		// console.log("this.instance: ", this.instance);
 
+		// DO NOT EDIT ORDER... this is tracked by this.startOfWeek
 		this.daysOfWeekLabels = {
 			0: "sun",
 			1: "mon",
@@ -22,6 +23,7 @@ class Datepicker {
 			5: "fri",
 			6: "sat"
 		};
+
 		this.monthsOfYear = {
 			0: "january",
 			1: "february",
@@ -37,6 +39,7 @@ class Datepicker {
 			11: "december"
 		};
 
+		//tracks which state we are in, picking days/months/years
 		this.datePickerStateOptions = {
 			0: "yearandmonth",
 			1: "year",
@@ -54,9 +57,7 @@ class Datepicker {
 
 		this.htmlYearAndMonth = this.instance.querySelector(".yearandmonth");
 		this.htmlDaysOfMonth = this.instance.querySelector(".calendar-daysofmonth");
-		this.htmlMonthsOfYear = this.instance.querySelector(
-			".calendar-monthsofyear"
-		);
+		this.htmlMonthsOfYear = this.instance.querySelector(".calendar-monthsofyear");
 		this.htmlYearsOfDecade = this.instance.querySelector(".calendar-decades");
 
 		//keep track of where we are on calendar
@@ -66,38 +67,37 @@ class Datepicker {
 		this.limitEndYearMonth = limitEndYearMonth;
 
 		this.startYear = startYear === null ? new Date().getFullYear() : startYear;
-		this.startMonth =
-			startMonth === null ? new Date().getMonth() : startMonth - 1; //cater for zero index
-		this.currentMonth = this.startMonth; //zero-index value
+    this.startMonth = startMonth === null ? new Date().getMonth() : startMonth - 1; //startMonth is zero indexd
+		this.startOfWeek = startOfWeek; //mon || sun
+    
+    this.currentMonth = this.startMonth; //zero-index value
 		this.currentYear = this.startYear;
 		this.currentDecade = this.getDecade(this.currentYear); //temp variable to store when selecting decade
-		this.htmlPickedDay = null;
-		this.pickedDate = null;
-
-		//set initial state
-		this.datePickerState = this.datePickerStateOptions[0];
-
+    
+    this.htmlPickedDay = null;
+    this.pickedDate = null;
+    
 		this.dateinput.addEventListener("click", this.onShowCalendar);
 		this.chevronTop.addEventListener("click", this.leftClickHandler);
 		this.chevronBottom.addEventListener("click", this.rightClickHandler);
 		this.htmlDaysOfMonth.addEventListener("click", this.dayClickHandler);
 		this.htmlMonthsOfYear.addEventListener("click", this.monthClickHandler);
 		this.htmlYearsOfDecade.addEventListener("click", this.decadeClickHandler);
-		this.htmlYearAndMonth.addEventListener(
-			"click",
-			this.yearAndMonthClickHandler
-		);
+		this.htmlYearAndMonth.addEventListener("click", this.yearAndMonthClickHandler);
 		//class listener
 		this.instance.addEventListener("leftclick", this.changeDateHandler);
 		this.instance.addEventListener("rightclick", this.changeDateHandler);
 
-		this.startOfWeek = startOfWeek; //mon || sun
-		this.generateWeekdays();
+		//set initial state
+		this.datePickerState = this.datePickerStateOptions[0];  
+    
+    this.generateWeekdays();
+		this.updateDate(this.currentMonth, this.currentYear);
 		this.generateCalendarMonths();
 		this.generateCalendarDecade();
-		this.updateDate(this.currentMonth, this.currentYear);
 	}
 
+  //call this function when month//year changes
 	updateDate = (monthIndex, year) => {
 		this.generateDaysOfMonth(monthIndex, year);
 		this.generateYearAndMonth(monthIndex, year);

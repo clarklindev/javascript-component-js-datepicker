@@ -1,5 +1,34 @@
 # Date picker
 
+## features
+* multiple instances associated with a class of your choice
+
+## usage
+* instance - required a html dom element with class to associate to datepicker 
+* startyear - yyyy, default is current year
+* startMonth - 1-12 (not zero indexed), default is current month
+* startOfWeek - "sun" or "mon", which day calendar should start on
+* limitStartYear - yyyy (limit which year you can go back to)
+* limitStartYearMonth - 1-12 (not zero indexed)
+* limitEndYear = yyyy (limit which year you can go farward to)
+* limitEndYearMonth = 1-12 (not zero indexed) 
+
+```js
+ new Datepicker(
+  instance, 
+  startYear = null,
+  startMonth = null,
+  startOfWeek = "sun",
+  limitStartYear = null,
+  limitStartYearMonth = null,
+  limitEndYear = null,
+  limitEndYearMonth = null) 
+
+```
+## future updates
+* localization for multiple languages (days of week, months of year)
+* limiting navigating month/years as set in constructor
+
 ## Analysis of the problem
 * find the reason or context of where the date picker is supposed to be used, 
 * if there is no test-case then pick your own 
