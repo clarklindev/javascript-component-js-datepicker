@@ -3,7 +3,7 @@ class Datepicker {
 	constructor(
 		obj,
 		startYear = null,
-		startMonth = null,
+    startMonth = null,
 		startOfWeek = "sun",
 		limitStartYear = null,
 		limitStartYearMonth = null,
@@ -69,14 +69,14 @@ class Datepicker {
 		this.startYear = startYear === null ? new Date().getFullYear() : startYear;
     this.startMonth = startMonth === null ? new Date().getMonth() : startMonth - 1; //startMonth is zero indexd
 		this.startOfWeek = startOfWeek; //mon || sun
-    
+
     this.currentMonth = this.startMonth; //zero-index value
 		this.currentYear = this.startYear;
 		this.currentDecade = this.getDecade(this.currentYear); //temp variable to store when selecting decade
     
     this.htmlPickedDay = null;
-    this.pickedDate = null;
-    
+    this.pickedDate = null;    
+
 		this.dateinput.addEventListener("click", this.onShowCalendar);
 		this.chevronTop.addEventListener("click", this.leftClickHandler);
 		this.chevronBottom.addEventListener("click", this.rightClickHandler);
@@ -94,7 +94,7 @@ class Datepicker {
     this.generateWeekdays();
 		this.updateDate(this.currentMonth, this.currentYear);
 		this.generateCalendarMonths();
-		this.generateCalendarDecade();
+    this.generateCalendarDecade();
 	}
 
   //call this function when month//year changes
@@ -512,17 +512,22 @@ class Datepicker {
 			this.datePickerState = this.datePickerStateOptions[0];
 			this.show(this.htmlYearAndMonth.querySelector(".month"));
 
-			//put text in input, pad with extra 0 if only one digit
-			let formattedDate =
-				this.pickedDate.getFullYear() +
-				"-" +
-				String(this.pickedDate.getMonth() + 1).padStart(2, "0") +
-				"-" +
-				String(this.pickedDate.getDate()).padStart(2, "0");
-			console.log("formattedDate: ", formattedDate);
-			this.dateinput.querySelector("input").value = formattedDate;
+      //update the input field
+			this.updateInputHandler(this.pickedDate);
 		}
-	};
+  };
+  
+  updateInputHandler = (date) =>{
+    //put text in input, pad with extra 0 if only one digit
+    let formattedDate =
+    date.getFullYear() +
+    "-" +
+    String(date.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(date.getDate()).padStart(2, "0");
+    console.log("formattedDate: ", formattedDate);
+    this.dateinput.querySelector("input").value = formattedDate;
+  }
 
 	leftClickHandler = () => {
 		// console.log("dispatch: leftclick");
