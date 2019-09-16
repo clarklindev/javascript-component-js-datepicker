@@ -36,6 +36,10 @@ Array.from(document.getElementsByClassName("datepicker")).map(
 	}
 );
 ```
+## browser support
+* tested on firefox
+* works on Edge (if compiled with babbel to ES5)
+
 ## future updates
 * localization for multiple languages (days of week, months of year)
 * limiting navigating month/years as set in constructor

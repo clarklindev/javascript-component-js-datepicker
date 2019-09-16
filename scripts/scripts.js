@@ -669,6 +669,6 @@ class Datepicker {
 //overlapping elements
 Array.from(document.getElementsByClassName("datepicker")).map(
 	(instance, index) => {
-		return new Datepicker(instance, null, null, "sun", null, null, null, null);
+		return new Datepicker(instance, null, null, "mon", null, null, null, null);
 	}
 );
