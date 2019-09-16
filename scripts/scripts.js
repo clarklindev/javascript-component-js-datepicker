@@ -120,7 +120,7 @@ class Datepicker {
 		return year % 4 || (year % 100 === 0 && year % 400) ? 0 : 1;
 	};
 
-	//get decade
+	//get decade - returns YYYY where rounded to closest decade
 	getDecade = (year = new Date().getFullYear()) => {
 		//take the year, divide by ten, then rid the decimal by flooring it, then multiply by 10
 		return Math.floor(year / 10) * 10;
@@ -158,13 +158,9 @@ class Datepicker {
 			if (this.startOfWeek === this.daysOfWeekLabels[0]) {
 				posInArray = i;
 			}
-
 			//start of week is monday
 			else if (this.startOfWeek === this.daysOfWeekLabels[1]) {
-				posInArray = i + 1;
-				if (i === 6) {
-					posInArray = 0;
-				}
+        posInArray = (i === 6) ? 0 : i + 1; //if i is 6 while looping, use 0,
 			}
 			let dayText = document.createTextNode(this.daysOfWeekLabels[posInArray]);
 			day.appendChild(dayText);
@@ -229,6 +225,7 @@ class Datepicker {
 					(this.currentYear === this.pickedDate.getFullYear() &&
 						this.currentMonth === this.pickedDate.getMonth())
 				) {
+          //compare the text and picked date, if equal...
 					if (
 						parseInt(dayText.nodeValue) === parseInt(this.pickedDate.getDate())
 					) {
@@ -241,7 +238,7 @@ class Datepicker {
 		}
 	};
 
-	//generate current view year
+	//generate current view year - yyyy
 	generateYear = (year = new Date().getFullYear()) => {
 		this.htmlYearAndMonth.querySelector(".year").innerHTML = "";
 		this.htmlYearAndMonth
@@ -249,10 +246,12 @@ class Datepicker {
 			.appendChild(document.createTextNode(year));
 	};
 
+  //generate current decade format: yyyy-yyyy
 	generateDecade = (year = new Date().getFullYear()) => {
 		console.log("generateDecade: ", year);
 		this.htmlYearAndMonth.querySelector(".year").innerHTML = "";
-		let decadeString = this.getDecade(year);
+    let decadeString = this.getDecade(year);
+    //format decade range to yyyy-yyyy (decade is 10 years, counting from 0-9 years) 
 		let decadeRange = `${decadeString}-${decadeString + 9}`;
 		this.htmlYearAndMonth
 			.querySelector(".year")
@@ -262,7 +261,8 @@ class Datepicker {
 	//generate current view month
 	generateMonth = (monthIndex = new Date().getMonth()) => {
 		this.htmlYearAndMonth.querySelector(".month").innerHTML = "";
-		let monthString = this.monthsOfYear[monthIndex];
+    let monthString = this.monthsOfYear[monthIndex];
+    //Capitalize first letter
 		let monthStringFormatted =
 			monthString.charAt(0).toUpperCase() + monthString.slice(1);
 		this.htmlYearAndMonth
@@ -442,15 +442,15 @@ class Datepicker {
 
     //show days
 		this.show(this.calendarDayView);
+		this.updateDate(this.currentMonth, this.currentYear);
 		//show arrows
 		this.show(this.chevronTop);
 		this.show(this.chevronBottom);
 		this.show(this.htmlYearAndMonth.querySelector(".month"));
 		//hide month
 		this.hide(this.calendarMonthView);
-		//show years
+		//hide years
 		this.hide(this.calendarYearview);
-		this.updateDate(this.currentMonth, this.currentYear);
 		//set the state to picking day
 		this.datePickerState = this.datePickerStateOptions[0];
   };
@@ -473,16 +473,17 @@ class Datepicker {
 		console.log("selectedMonth:", parseInt(selectedMonth[0])); //zero-indexed+1 for viewer to see which month
 		this.currentMonth = parseInt(selectedMonth[0]);
 		//show days
-		this.show(this.calendarDayView);
+    this.show(this.calendarDayView);
+    this.updateDate(this.currentMonth, this.currentYear);
 		//show arrows
 		this.show(this.chevronTop);
 		this.show(this.chevronBottom);
 		this.show(this.htmlYearAndMonth.querySelector(".month"));
 		//hide month
 		this.hide(this.calendarMonthView);
-		//show years
+		//hide years
 		this.hide(this.calendarYearview);
-		this.updateDate(this.currentMonth, this.currentYear);
+		
 		//set the state to picking day
 		this.datePickerState = this.datePickerStateOptions[0];
 	};
@@ -511,7 +512,7 @@ class Datepicker {
 			this.datePickerState = this.datePickerStateOptions[0];
 			this.show(this.htmlYearAndMonth.querySelector(".month"));
 
-			//put text in input
+			//put text in input, pad with extra 0 if only one digit
 			let formattedDate =
 				this.pickedDate.getFullYear() +
 				"-" +
@@ -533,26 +534,32 @@ class Datepicker {
 		this.instance.dispatchEvent(new Event("rightclick"));
 	};
 
-	//this function is called when month/year is updated
+  //this function is called when month/year is updated
+  //left click and right click are multifunction
 	changeDateHandler = event => {
 		let shouldUpdate = false;
 		switch (event.type) {
 			case "leftclick":
 				switch (this.datePickerState) {
 					case "yearandmonth":
-						//left
+            //left
+            //if no limits to start year
 						if (
 							this.currentYear > this.limitStartYear ||
 							this.limitStartYear === null
 						) {
 							this.currentMonth--;
-							shouldUpdate = true;
+              shouldUpdate = true;
+              //when current month gets to 0, make it 11
 							if (this.currentMonth < 0) {
 								this.currentMonth = 11;
 								this.currentYear--;
 							}
-						} else if (this.currentYear === this.limitStartYear) {
-							//-1 caters for index in array
+            }
+            //when current year is the limit 
+            else if (this.currentYear === this.limitStartYear) {
+              //-1 caters for index in array
+              //make sure that the year wont go less than limit
 							if (
 								(this.currentMonth > 0 && this.limitStartYearMonth === null) ||
 								this.currentMonth > this.limitStartYearMonth - 1

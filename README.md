@@ -2,6 +2,7 @@
 
 ## features
 * multiple instances associated with a class of your choice
+* choose start of week (Sunday or Monday)
 
 ## usage
 * instance - required a html dom element with class to associate to datepicker 
@@ -13,6 +14,7 @@
 * limitEndYear = yyyy (limit which year you can go farward to)
 * limitEndYearMonth = 1-12 (not zero indexed) 
 
+### example
 ```js
  new Datepicker(
   instance, 
@@ -22,8 +24,17 @@
   limitStartYear = null,
   limitStartYearMonth = null,
   limitEndYear = null,
-  limitEndYearMonth = null) 
+  limitEndYearMonth = null
+) 
 
+//support for multiple instances
+//currently all defaults start with same value can create array and assign possitions then use the index of map to assign different values
+//overlapping elements
+Array.from(document.getElementsByClassName("datepicker")).map(
+	(instance, index) => {
+		return new Datepicker(instance, null, null, "sun", null, null, null, null);
+	}
+);
 ```
 ## future updates
 * localization for multiple languages (days of week, months of year)
